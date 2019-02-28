@@ -12,17 +12,4 @@ namespace Rey.Mapping {
 
     public interface IMapFrom<T> : IMapFrom {
     }
-
-    public interface IMapToken {
-
-    }
-
-    public interface IMapValueTable {
-
-    }
-
-    public interface IMapContract {
-        IMapValueTable Values { get; }
-        IMapToken Token { get; }
-    }
 }
