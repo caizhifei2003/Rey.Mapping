@@ -8,6 +8,8 @@ namespace Rey.Mapping {
         Type Type { get; }
         IMapTo To(Type type);
         IMapTo<T> To<T>();
+
+        IMapContract MapToContract();
     }
 
     public interface IMapFrom<T> : IMapFrom {

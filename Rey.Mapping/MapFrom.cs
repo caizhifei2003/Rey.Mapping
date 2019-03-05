@@ -19,21 +19,24 @@ namespace Rey.Mapping {
             this.Type = type;
         }
 
-        private IMapContract MapToContract() {
+        public IMapContract MapToContract() {
             var fromMappers = this.Provider.GetService<IEnumerable<IFromMapper>>();
             var fromMapper = fromMappers.FirstOrDefault(x => x.Filter(this));
             if (fromMapper == null)
                 throw new NotImplementedException();
 
-            return fromMapper.MapToContract(this);
+            var values = new MapValueTable();
+
+            var token = fromMapper.MapToContract(this, values);
+            return new MapContract(token, values);
         }
 
         public IMapTo To(Type type) {
-            return new MapTo(this.Provider, this.MapToContract(), type);
+            return new MapTo(this.Provider, this, type);
         }
 
         public IMapTo<T> To<T>() {
-            return new MapTo<T>(this.Provider, this.MapToContract());
+            return new MapTo<T>(this.Provider, this);
         }
     }
 

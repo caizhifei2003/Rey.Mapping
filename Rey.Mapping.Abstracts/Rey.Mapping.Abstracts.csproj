@@ -5,4 +5,8 @@
     <RootNamespace>Rey.Mapping</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Rey.Reflection\Rey.Reflection.csproj" />
+  </ItemGroup>
+
 </Project>

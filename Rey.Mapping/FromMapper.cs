@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Rey.Reflection;
+using System;
 
 namespace Rey.Mapping {
     public abstract class FromMapper<T> : IFromMapper {
@@ -6,16 +7,29 @@ namespace Rey.Mapping {
             return typeof(T).Equals(from.Type);
         }
 
-        public abstract IMapContract MapToContract(IMapFrom from, IMapContract contract = null);
+        public abstract IMapToken MapToContract(IMapFrom from, IMapValueTable values, IMapToken parent = null);
     }
 
     public class FromInt32Mapper : FromMapper<Int32> {
-        public override IMapContract MapToContract(IMapFrom from, IMapContract contract = null) {
-            contract = contract ?? new MapContract();
-            //contract.Token = new MapToken(from.Type);
-            //contract.Values.AddValue(new MapValue(from.Value));
+        public override IMapToken MapToContract(IMapFrom from, IMapValueTable values, IMapToken parent = null) {
+            var token = new MapToken(from.Type);
+            parent?.Children?.Add(token);
+            return token;
+        }
+    }
 
-            return contract;
+    public class FromClassMapper : IFromMapper {
+        public bool Filter(IMapFrom from) {
+            return from.Type.IsClass;
+        }
+
+        public IMapToken MapToContract(IMapFrom from, IMapValueTable values, IMapToken parent = null) {
+            var token = new MapToken(from.Type);
+            var members = from.Type.ReyGetMembers();
+            foreach (var member in members) {
+                var value = member.GetValue(from.Value);
+            }
+            return new MapToken(from.Type);
         }
     }
 }

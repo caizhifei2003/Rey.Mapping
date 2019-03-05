@@ -3,8 +3,13 @@ using System.Collections.Generic;
 
 namespace Rey.Mapping {
     public class MapContract : IMapContract {
-        public IMapValueTable Values { get; } = new MapValueTable();
-        public IMapToken Token { get; set; }
+        public IMapToken Token { get; }
+        public IMapValueTable Values { get; }
+
+        public MapContract(IMapToken token, IMapValueTable values) {
+            this.Token = token;
+            this.Values = values;
+        }
     }
 
     public class MapValue : IMapValue {
