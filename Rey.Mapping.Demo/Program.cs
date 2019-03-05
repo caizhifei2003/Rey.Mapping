@@ -3,189 +3,284 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Rey.Mapping.Demo {
+namespace Rey.Mapping {
     class Program {
         static void Main(string[] args) {
             var model = new Person() { Name = "Kevin", Age = 32, Father = new Person { Name = "Jie", Age = 70 } };
-            var from = new MapFrom() { Type = typeof(Person), Value = model };
-            var fromMgr = new FromMapperManager(new List<IFromMapper>() { new StringFromMapper(), new ClassFromMapper(), new Int32FromMapper() });
-            var values = new MapValueTable();
-            var root = fromMgr.MapFrom(from, values);
+            //var from = MapFrom.Create(model);
+            //var from1 = MapFrom.Create(model, x => x.Name);
+            //var from2 = MapFrom.Create(model, x => x.Age);
+
+            //var node = MapNode.Create(model);
+            var mapper = new DefaultFromMapper(new List<IFromMapper>() { new FromStringMapper(), new FromNumberMapper(), new FromObjectMapper() });
+            var context = new MapFromContext(mapper);
+
+            var from = MapFrom.Create("Hello");
+            var node = mapper.MapFrom(from, context);
+
+            var from1 = MapFrom.Create(123);
+            var node1 = mapper.MapFrom(from1, context);
+
+            var from2 = MapFrom.Create(model);
+            var node2 = mapper.MapFrom(from2, context);
+
+
+            //var fromMgr = new FromMapperManager(new List<IFromMapper>() { new StringFromMapper(), new ClassFromMapper(), new Int32FromMapper() });
+            //var values = new MapValueTable();
+            //var root = fromMgr.MapFrom(from, values);
         }
     }
 
     public class Person {
         public string Name { get; set; }
         public Person Father { get; set; }
-        public int Age { get; set; }
+        public int Age;
     }
 
-    public interface IFromMapper {
-        bool Filter(MapFrom from);
-        MapNode MapFrom(MapFrom from, IMapValueTable values, IFromMapperMamager manager);
+    public enum MapTypes {
+        String = 1,
+        Number,
+        Object,
     }
 
-    public interface IFromMapperMamager {
-        MapNode MapFrom(MapFrom from, IMapValueTable values);
-    }
+    public class MapType {
+        public Type Type { get; }
+        public string Name => this.Type.Name;
 
-    public interface IMapContract {
-
-    }
-
-    public interface IMapValueTable {
-        IMapValueTable ChildrenTable(string name);
-        IMapValueTable AddValue(string name, object value);
-    }
-
-    public class MapValueTable : IMapValueTable {
-        public Dictionary<string, object> Values { get; } = new Dictionary<string, object>();
-
-        public virtual IMapValueTable AddValue(string name, object value) {
-            this.Values.Add(name, value);
-            return this;
+        public MapType(Type type) {
+            this.Type = type;
         }
 
-        public IMapValueTable ChildrenTable(string name) {
-            return new MapChildrenTable(this, name);
+        public static implicit operator MapType(Type type) {
+            return new MapType(type);
+        }
+
+        public IEnumerable<MapProperty> GetProperties(BindingFlags flags = BindingFlags.Public | BindingFlags.Instance) {
+            return this.Type.GetProperties(flags).Select(x => new MapProperty(x));
+        }
+
+        public IEnumerable<MapField> GetFields(BindingFlags flags = BindingFlags.Public | BindingFlags.Instance) {
+            return this.Type.GetFields(flags).Select(x => new MapField(x));
+        }
+
+        public IEnumerable<MapMember> GetMembers(BindingFlags flags = BindingFlags.Public | BindingFlags.Instance) {
+            var members = new List<MapMember>();
+            members.AddRange(this.GetProperties(flags));
+            members.AddRange(this.GetFields(flags));
+            return members;
         }
     }
 
-    public class MapChildrenTable : IMapValueTable {
-        public IMapValueTable Values { get; }
+    public abstract class MapMember {
+        public abstract MapFrom CreateMapFrom(object target);
+    }
+
+    public class MapProperty : MapMember {
+        public PropertyInfo Property { get; }
+
+        public MapProperty(PropertyInfo property) {
+            this.Property = property;
+        }
+
+        public override MapFrom CreateMapFrom(object target) {
+            return new MapPropertyFrom(target, this.Property);
+        }
+    }
+
+    public class MapField : MapMember {
+        public FieldInfo Field { get; }
+
+        public MapField(FieldInfo field) {
+            this.Field = field;
+        }
+
+        public override MapFrom CreateMapFrom(object target) {
+            return new MapFieldFrom(target, this.Field);
+        }
+    }
+
+    public abstract class MapValue {
+        public MapTypes Type { get; }
+        public object Value { get; }
+
+        public MapValue(MapTypes type, object value) {
+            this.Type = type;
+            this.Value = value;
+        }
+    }
+
+    public class MapStringValue : MapValue {
+        public MapStringValue(string value)
+            : base(MapTypes.String, value) {
+        }
+    }
+
+    public class MapNumeberValue : MapValue {
+        public MapNumeberValue(decimal value)
+            : base(MapTypes.Number, value) {
+        }
+    }
+
+    public class MapObjectValue : MapValue {
+        public MapObjectValue(object value)
+            : base(MapTypes.Object, value) {
+        }
+    }
+
+    public class MapPath {
         public string Name { get; }
+        public MapPath Parent { get; }
 
-        public MapChildrenTable(IMapValueTable values, string name) {
-            this.Values = values;
+        public MapPath(string name = null, MapPath parent = null) {
             this.Name = name;
-        }
-
-        public IMapValueTable AddValue(string name, object value) {
-            this.Values.AddValue(string.Join('.', this.Name, name), value);
-            return this;
-        }
-
-        public IMapValueTable ChildrenTable(string name) {
-            return new MapChildrenTable(this.Values, string.Join('.', this.Name, name));
+            this.Parent = parent;
         }
     }
 
     public class MapNode {
-        public string Name { get; set; }
-        public Type Type { get; set; }
+        public MapType Type { get; set; }
+        public MapValue Value { get; set; }
         public MapPath Path { get; set; }
-        public List<MapNode> Children { get; set; } = new List<MapNode>();
+        public List<MapNode> Children { get; } = new List<MapNode>();
     }
 
-    public class MapPath {
-        public string Name { get; set; }
-        public MapPath Parent { get; set; }
-
-        public MapPath CreateChild(string name) {
-            return new MapPath { Name = name, Parent = this };
-        }
-
-        public override string ToString() {
-            var stack = new Stack<string>();
-            stack.Push(this.Name);
-            for (var parent = this.Parent; parent != null; parent = parent.Parent) {
-                stack.Push(parent.Name);
-            }
-            return string.Join(" -> ", stack);
+    public class MapObjectNode : MapNode {
+        public MapObjectNode(Type type, MapValue value) {
+            this.Type = type;
+            this.Value = value;
+            this.Path = new MapPath();
         }
     }
 
-    public class MapFrom {
-        public Type Type { get; set; }
-        public object Value { get; set; }
-        public virtual string Name => this.Type.Name;
+    public abstract class MapMemberNode : MapNode {
+        public object Target { get; }
+
+        public MapMemberNode(object target, MapPath path) {
+            this.Target = target;
+            this.Path = path;
+        }
     }
 
-    public class MapMemberFrom : MapFrom {
+    //public class PropertyMapNode : MemberMapNode {
+    //    public PropertyInfo Property { get; }
+    //    public override string Name => this.Property.Name;
+    //    public override Type Type => this.Property.PropertyType;
+    //    public override object Value => this.Property.GetValue(this.Target);
 
+    //    public PropertyMapNode(object target, PropertyInfo property)
+    //        : base(target, null) {
+    //    }
+    //}
+
+    public interface IMapFromContext {
+        MapNode MapFrom(MapFrom from);
     }
 
-    public class MapPropertyFrom : MapMemberFrom {
-        public PropertyInfo Member { get; set; }
-        public override string Name => this.Member.Name;
+    public class MapFromContext : IMapFromContext {
+        private IDefaultFromMapper Mapper { get; }
+
+        public MapFromContext(IDefaultFromMapper mapper) {
+            this.Mapper = mapper;
+        }
+
+        public MapNode MapFrom(MapFrom from) {
+            return this.Mapper.MapFrom(from, this);
+        }
     }
 
-    public class MapFieldFrom : MapMemberFrom {
-        public FieldInfo Member { get; set; }
-        public override string Name => this.Member.Name;
-    }
-
-    public class MapTo {
-        public Type Type { get; set; }
-    }
-
-    public class MapContract : IMapContract {
-        public MapValueTable Values { get; set; }
-        public MapNode Root { get; set; }
-    }
-
-    public class FromMapperManager : IFromMapperMamager {
+    public class DefaultFromMapper : IDefaultFromMapper {
         private IEnumerable<IFromMapper> Mappers { get; }
 
-        public FromMapperManager(IEnumerable<IFromMapper> mappers) {
+        public DefaultFromMapper(IEnumerable<IFromMapper> mappers) {
             this.Mappers = mappers;
         }
 
-        public MapNode MapFrom(MapFrom from, IMapValueTable values) {
-            var mapper = this.Mappers.FirstOrDefault(x => x.Filter(from));
-            return mapper.MapFrom(from, values, this);
-        }
-    }
-
-    public class StringFromMapper : IFromMapper {
-        public bool Filter(MapFrom from) {
-            return typeof(string).Equals(from.Type);
-        }
-
-        public MapNode MapFrom(MapFrom from, IMapValueTable values, IFromMapperMamager manager) {
-            var node = new MapNode() { Name = from.Name, Type = from.Type };
-            values.AddValue(from.Name, from.Value);
-            return node;
-        }
-    }
-
-    public class Int32FromMapper : IFromMapper {
-        public bool Filter(MapFrom from) {
-            return typeof(Int32).Equals(from.Type);
-        }
-
-        public MapNode MapFrom(MapFrom from, IMapValueTable values, IFromMapperMamager manager) {
-            var node = new MapNode() { Name = from.Name, Type = from.Type };
-            values.AddValue(from.Name, from.Value);
-            return node;
-        }
-    }
-
-    public class ClassFromMapper : IFromMapper {
-        public bool Filter(MapFrom from) {
-            return from.Type.IsClass;
-        }
-
-        public MapNode MapFrom(MapFrom from, IMapValueTable values, IFromMapperMamager manager) {
-            var props = from.Type
-                .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                .Where(x => x.CanRead);
-
-            var node = new MapNode { Name = from.Name, Type = from.Type, Path = new MapPath { Name = from.Name } };
-            //values.AddValue(from.Name, from.Value);
-
-            foreach (var prop in props) {
-                var type = prop.PropertyType;
-                var value = prop.GetValue(from.Value);
-                if (value == null)
+        public MapNode MapFrom(MapFrom from, IMapFromContext context) {
+            foreach (var mapper in this.Mappers) {
+                try {
+                    return mapper.MapFrom(from, context);
+                } catch (MapFieldException) {
                     continue;
-
-                var fromProp = new MapPropertyFrom() { Type = type, Value = value, Member = prop };
-                var child = manager.MapFrom(fromProp, values.ChildrenTable(from.Name));
-                child.Path = node.Path.CreateChild(child.Name);
-                node.Children.Add(child);
+                }
             }
+            throw new MapFieldException();
+        }
+    }
 
+    public interface IFromMapper {
+        MapNode MapFrom(MapFrom from, IMapFromContext context);
+    }
+
+    public interface IDefaultFromMapper : IFromMapper {
+
+    }
+
+    public class MapFieldException : Exception {
+
+    }
+
+    public class FromStringMapper : IFromMapper {
+        public bool Filter(MapFrom from) {
+            var type = from.Type.Type;
+            return typeof(string).Equals(type)
+                || typeof(char).Equals(type);
+        }
+
+        public MapNode MapFrom(MapFrom from, IMapFromContext context) {
+            if (!this.Filter(from))
+                throw new MapFieldException();
+
+            var value = new MapStringValue($"{from.Value}");
+            return new MapNode() {
+                Type = from.Type,
+                Value = value,
+            };
+        }
+    }
+
+    public class FromNumberMapper : IFromMapper {
+        public bool Filter(MapFrom from) {
+            var type = from.Type.Type;
+            return typeof(Int16).Equals(type) || typeof(UInt16).Equals(type)
+                || typeof(Int32).Equals(type) || typeof(UInt32).Equals(type)
+                || typeof(Int64).Equals(type) || typeof(UInt64).Equals(type)
+                || typeof(float).Equals(type) || typeof(double).Equals(type) || typeof(decimal).Equals(type);
+        }
+
+        public MapNode MapFrom(MapFrom from, IMapFromContext context) {
+            if (!this.Filter(from))
+                throw new MapFieldException();
+
+            var changed = (decimal)Convert.ChangeType(from.Value, typeof(decimal));
+            var value = new MapNumeberValue(changed);
+            return new MapNode() {
+                Type = from.Type,
+                Value = value,
+            };
+        }
+    }
+
+    public class FromObjectMapper : IFromMapper {
+        public bool Filter(MapFrom from) {
+            var type = from.Type.Type;
+            return type.IsClass;
+        }
+
+        public MapNode MapFrom(MapFrom from, IMapFromContext context) {
+            if (!this.Filter(from))
+                throw new MapFieldException();
+
+            var node = new MapNode() {
+                Type = from.Type,
+
+            };
+
+            var members = from.Type.GetMembers();
+            foreach (var member in members) {
+                var memberFrom = member.CreateMapFrom(from.Value);
+                var childNode = context.MapFrom(memberFrom);
+                node.Children.Add(childNode);
+            }
             return node;
         }
     }
