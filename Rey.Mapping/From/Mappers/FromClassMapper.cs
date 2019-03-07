@@ -4,7 +4,7 @@ using System.Reflection;
 namespace Rey.Mapping {
     public class FromClassMapper : IFromMapper {
         public bool CanMapFrom(Type type, MapPath path) {
-            return type.IsClass && !type.Namespace.Equals("System") && !type.IsArray;
+            return type.IsClass && !type.Namespace.StartsWith("System") && !type.IsArray;
         }
 
         public void MapFrom(Type type, object value, MapPath path, MapFromContext context) {

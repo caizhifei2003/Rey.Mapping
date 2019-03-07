@@ -30,8 +30,8 @@ namespace Rey.Mapping {
             return this.Type(type).Build();
         }
 
-        public object To<T>() {
-            return this.Type<T>().Build();
+        public T To<T>() {
+            return (T)this.Type<T>().Build();
         }
     }
 }

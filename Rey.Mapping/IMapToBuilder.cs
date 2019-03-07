@@ -6,6 +6,6 @@ namespace Rey.Mapping {
         IMapToBuilder Type(Type type);
         IMapToBuilder Type<T>();
         object To(Type type);
-        object To<T>();
+        T To<T>();
     }
 }
