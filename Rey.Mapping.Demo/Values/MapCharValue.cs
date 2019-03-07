@@ -1,8 +1,11 @@
-﻿namespace Rey.Mapping {
-    public class MapNumberValue : MapValue {
-        public decimal Value { get; }
+﻿using System;
 
-        public MapNumberValue(decimal value) {
+namespace Rey.Mapping {
+    public class MapCharValue : MapValue {
+        public Char Value { get; }
+
+        public MapCharValue(Char value)
+            : base(MapValueType.Char) {
             this.Value = value;
         }
 

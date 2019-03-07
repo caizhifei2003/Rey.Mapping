@@ -6,7 +6,20 @@ namespace Rey.Mapping {
             if (!typeof(string).Equals(type))
                 throw new MapToFailedException();
 
-            return context.Values.GetValue(path)?.GetValue();
+            var value = context.Values.GetValue(path);
+            if (value.IsNull)
+                return null;
+
+            if (value.IsChar)
+                return $"{value.GetValue()}";
+
+            if (value.IsString)
+                return value.GetValue();
+
+            if (value.IsNumber)
+                return $"{value.GetValue()}";
+
+            throw new NotImplementedException();
         }
     }
 }

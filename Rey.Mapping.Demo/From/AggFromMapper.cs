@@ -10,13 +10,19 @@ namespace Rey.Mapping {
         }
 
         public void MapFrom(Type type, object value, MapPath path, MapFromContext context) {
+            var succeeded = false;
             foreach (var mapper in this.Mappers) {
                 try {
                     mapper.MapFrom(type, value, path, context);
+                    succeeded = true;
+                    return;
                 } catch (MapFromFailedException) {
                     continue;
                 }
             }
+
+            if (!succeeded)
+                throw new MapFromFailedException();
         }
     }
 }

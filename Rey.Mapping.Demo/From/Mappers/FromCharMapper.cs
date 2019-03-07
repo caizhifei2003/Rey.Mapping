@@ -1,12 +1,12 @@
 ﻿using System;
 
 namespace Rey.Mapping {
-    public class FromInt32Mapper : IFromMapper {
+    public class FromCharMapper : IFromMapper {
         public void MapFrom(Type type, object value, MapPath path, MapFromContext context) {
-            if (!typeof(Int32).Equals(type))
+            if (!typeof(Char).Equals(type))
                 throw new MapFromFailedException();
 
-            throw new NotImplementedException();
+            context.Values.AddValue(path, new MapCharValue((char)value));
         }
     }
 }

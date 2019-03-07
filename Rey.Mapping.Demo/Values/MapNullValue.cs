@@ -1,6 +1,8 @@
 ﻿namespace Rey.Mapping {
     public class MapNullValue : MapValue {
-        public override bool IsNull => true;
+        public MapNullValue()
+            : base(MapValueType.Null) {
+        }
 
         public override object GetValue() {
             throw new System.NotImplementedException();

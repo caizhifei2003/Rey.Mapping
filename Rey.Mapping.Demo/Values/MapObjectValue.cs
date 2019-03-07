@@ -1,6 +1,8 @@
 ﻿namespace Rey.Mapping {
     public class MapObjectValue : MapValue {
-        public override bool IsObject => true;
+        public MapObjectValue()
+            : base(MapValueType.Object) {
+        }
 
         public override object GetValue() {
             throw new System.NotImplementedException();
