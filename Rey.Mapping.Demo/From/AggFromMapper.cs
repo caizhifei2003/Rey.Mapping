@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Rey.Mapping {
     public class AggFromMapper : IAggFromMapper {
@@ -10,19 +11,11 @@ namespace Rey.Mapping {
         }
 
         public void MapFrom(Type type, object value, MapPath path, MapFromContext context) {
-            var succeeded = false;
-            foreach (var mapper in this.Mappers) {
-                try {
-                    mapper.MapFrom(type, value, path, context);
-                    succeeded = true;
-                    return;
-                } catch (MapFromFailedException) {
-                    continue;
-                }
-            }
+            var mapper = this.Mappers.FirstOrDefault(x => x.CanMapFrom(type, path));
+            if (mapper == null)
+                throw new InvalidOperationException("cannot find mapper.");
 
-            if (!succeeded)
-                throw new MapFromFailedException();
+            mapper.MapFrom(type, value, path, context);
         }
     }
 }

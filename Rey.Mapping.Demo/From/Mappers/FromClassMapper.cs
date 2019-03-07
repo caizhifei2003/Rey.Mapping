@@ -3,10 +3,11 @@ using System.Reflection;
 
 namespace Rey.Mapping {
     public class FromClassMapper : IFromMapper {
-        public void MapFrom(Type type, object value, MapPath path, MapFromContext context) {
-            if (!type.IsClass || type.Namespace.Equals("System"))
-                throw new MapFromFailedException();
+        public bool CanMapFrom(Type type, MapPath path) {
+            return type.IsClass && !type.Namespace.Equals("System");
+        }
 
+        public void MapFrom(Type type, object value, MapPath path, MapFromContext context) {
             if (value == null) {
                 context.Values.AddValue(path, new MapNullValue());
                 return;

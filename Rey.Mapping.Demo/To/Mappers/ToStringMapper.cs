@@ -2,10 +2,11 @@
 
 namespace Rey.Mapping {
     public class ToStringMapper : IToMapper {
-        public object MapTo(Type type, MapPath path, MapToContext context) {
-            if (!typeof(string).Equals(type))
-                throw new MapToFailedException();
+        public bool CanMapTo(Type type, MapPath path) {
+            return typeof(string).Equals(type);
+        }
 
+        public object MapTo(Type type, MapPath path, MapToContext context) {
             var value = context.Values.GetValue(path);
             if (value.IsNull)
                 return null;

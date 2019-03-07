@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Rey.Mapping {
     public class AggToMapper : IAggToMapper {
@@ -10,14 +11,11 @@ namespace Rey.Mapping {
         }
 
         public object MapTo(Type type, MapPath path, MapToContext context) {
-            foreach (var mapper in this.Mappers) {
-                try {
-                    return mapper.MapTo(type, path, context);
-                } catch (MapToFailedException) {
-                    continue;
-                }
-            }
-            throw new MapToFailedException();
+            var mapper = this.Mappers.FirstOrDefault(x => x.CanMapTo(type, path));
+            if (mapper == null)
+                throw new InvalidOperationException("cannot find mapper.");
+
+            return mapper.MapTo(type, path, context);
         }
     }
 }

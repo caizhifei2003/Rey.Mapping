@@ -3,10 +3,11 @@ using System.Reflection;
 
 namespace Rey.Mapping {
     public class ToClassMapper : IToMapper {
-        public object MapTo(Type type, MapPath path, MapToContext context) {
-            if (!type.IsClass || type.Namespace.Equals("System"))
-                throw new MapToFailedException();
+        public bool CanMapTo(Type type, MapPath path) {
+            return type.IsClass && !type.Namespace.Equals("System");
+        }
 
+        public object MapTo(Type type, MapPath path, MapToContext context) {
             var value = context.Values.GetValue(path);
             if (value.IsNull)
                 return null;

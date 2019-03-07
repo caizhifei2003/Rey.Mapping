@@ -2,10 +2,11 @@
 
 namespace Rey.Mapping {
     public class FromStringMapper : IFromMapper {
-        public void MapFrom(Type type, object value, MapPath path, MapFromContext context) {
-            if (!typeof(string).Equals(type))
-                throw new MapFromFailedException();
+        public bool CanMapFrom(Type type, MapPath path) {
+            return typeof(string).Equals(type);
+        }
 
+        public void MapFrom(Type type, object value, MapPath path, MapFromContext context) {
             if (value == null) {
                 context.Values.AddValue(path, new MapNullValue());
                 return;
