@@ -7,94 +7,99 @@ namespace Rey.Mapping {
     class Program {
         static void Main(string[] args) {
             var father = new Person { Name = "Jie", Age = 70 };
-            var model = new Person() { Name = "Kevin", Age = 32, Father = father };
+            var person = new Person { Name = "Kevin", Age = 32, Father = father };
+            //! "": person
+            //! "Name": "Kevin"
+            //! "Age": 32
+            //! "Father": father
 
-            //! root: children
-            //! name: name="name", value="Kevin"
-            //! father: name="father", children
+            var fromMappers = new List<IFromMapper> { new FromStringMapper(), new FromInt32Mapper(), new FromClassMapper() };
+            var fromMapper = new AggFromMapper(fromMappers);
+            var fromContext = new MapFromContext(fromMapper);
+            fromMapper.MapFrom(typeof(Person), person, new MapPath(), fromContext);
 
-
-            //var from = MapFrom.Create(model);
-            //var from1 = MapFrom.Create(model, x => x.Name);
-            //var from2 = MapFrom.Create(model, x => x.Age);
-
-            //var node = MapNode.Create(model);
-            //var mapper = new DefaultFromMapper(new List<IFromMapper>() { new FromStringMapper(), new FromNumberMapper(), new FromObjectMapper() });
-            //var context = new MapFromContext(mapper);
-
-            //var from = MapFrom.Create("Hello");
-            //var node = mapper.MapFrom(from, context);
-
-            //var from1 = MapFrom.Create(123);
-            //var node1 = mapper.MapFrom(from1, context);
-
-            //var from2 = MapFrom.Create(model);
-            //var node2 = mapper.MapFrom(from2, context);
-
-
-            //var fromMgr = new FromMapperManager(new List<IFromMapper>() { new StringFromMapper(), new ClassFromMapper(), new Int32FromMapper() });
-            //var values = new MapValueTable();
-            //var root = fromMgr.MapFrom(from, values);
+            var toMappers = new List<IToMapper> { new ToStringMapper(), new ToInt32Mapper(), new ToClassMapper() };
+            var toMapper = new AggToMapper(toMappers);
+            var toContext = new MapToContext(toMapper, fromContext.Values);
+            var to = toMapper.MapTo(typeof(Person), new MapPath(), toContext);
         }
     }
 
     public class Person {
         public string Name { get; set; }
+        public int Age { get; set; }
         public Person Father { get; set; }
-        public int Age;
     }
 
-    #region 反射
+    public class MapToContext {
+        public IToMapper Mapper { get; }
+        public MapValueTable Values { get; }
 
-    public class MapType {
-        public Type Type { get; }
-        public string Name => this.Type.Name;
-
-        public MapType(Type type) {
-            this.Type = type;
-        }
-
-        public static implicit operator MapType(Type type) {
-            return new MapType(type);
-        }
-
-        public IEnumerable<MapProperty> GetProperties(BindingFlags flags = BindingFlags.Public | BindingFlags.Instance) {
-            return this.Type.GetProperties(flags).Select(x => new MapProperty(x));
-        }
-
-        public IEnumerable<MapField> GetFields(BindingFlags flags = BindingFlags.Public | BindingFlags.Instance) {
-            return this.Type.GetFields(flags).Select(x => new MapField(x));
-        }
-
-        public IEnumerable<MapMember> GetMembers(BindingFlags flags = BindingFlags.Public | BindingFlags.Instance) {
-            var members = new List<MapMember>();
-            members.AddRange(this.GetProperties(flags));
-            members.AddRange(this.GetFields(flags));
-            return members;
+        public MapToContext(IToMapper mapper, MapValueTable values) {
+            this.Mapper = mapper;
+            this.Values = values;
         }
     }
 
-    public abstract class MapMember {
-        public abstract string Name { get; }
+    public interface IToMapper {
+        object MapTo(Type type, MapPath path, MapToContext context);
     }
 
-    public class MapField : MapMember {
-        public FieldInfo Field { get; }
-        public override string Name => this.Field.Name;
+    public interface IAggToMapper : IToMapper {
 
-        public MapField(FieldInfo field) {
-            this.Field = field;
+    }
+
+    public class AggToMapper : IAggToMapper {
+        private IEnumerable<IToMapper> Mappers { get; }
+
+        public AggToMapper(IEnumerable<IToMapper> mappers) {
+            this.Mappers = new List<IToMapper>(mappers);
+        }
+
+        public object MapTo(Type type, MapPath path, MapToContext context) {
+            foreach (var mapper in this.Mappers) {
+                try {
+                    return mapper.MapTo(type, path, context);
+                } catch (MapToFailedException) {
+                    continue;
+                }
+            }
+            throw new MapToFailedException();
         }
     }
 
-    public class MapProperty : MapMember {
-        public PropertyInfo Property { get; }
-        public override string Name => this.Property.Name;
+    public class ToStringMapper : IToMapper {
+        public object MapTo(Type type, MapPath path, MapToContext context) {
+            if (!typeof(string).Equals(type))
+                throw new MapToFailedException();
 
-        public MapProperty(PropertyInfo property) {
-            this.Property = property;
+            return context.Values.GetValue(path)?.Value;
         }
     }
 
-    #endregion 反射
+    public class ToInt32Mapper : IToMapper {
+        public object MapTo(Type type, MapPath path, MapToContext context) {
+            if (!typeof(Int32).Equals(type))
+                throw new MapToFailedException();
+
+            var value = context.Values.GetValue(path).Value;
+            return Convert.ChangeType(value, typeof(Int32));
+        }
+    }
+
+    public class ToClassMapper : IToMapper {
+        public object MapTo(Type type, MapPath path, MapToContext context) {
+            if (!type.IsClass || type.Namespace.Equals("System"))
+                throw new MapToFailedException();
+
+            var instance = Activator.CreateInstance(type);
+            var props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            foreach (var prop in props) {
+                var propType = prop.PropertyType;
+                var propValue = context.Mapper.MapTo(propType, path.Join(prop.Name), context);
+                prop.SetValue(instance, propValue);
+            }
+            return instance;
+        }
+    }
 }
