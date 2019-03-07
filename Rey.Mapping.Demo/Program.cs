@@ -1,18 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Rey.Mapping {
     class Program {
         static void Main(string[] args) {
-            var father = new PersonFrom { Name = "Jie", Age = (char)70 };
-            var person = new PersonFrom { Name = "Kevin", Age = (char)32, Father = father };
+            var father = new PersonFrom { Name = "Jie", Age = 70 };
+            var person = new PersonFrom { Name = "Kevin", Age = 32, Father = father };
             //! "": person
             //! "Name": "Kevin"
             //! "Age": 32
             //! "Father": father
-
-            var min = sbyte.MinValue;
-            var max = sbyte.MaxValue;
 
             var fromMappers = new List<IFromMapper> {
                 new FromStringMapper(),
@@ -35,7 +33,7 @@ namespace Rey.Mapping {
 
     public class PersonFrom {
         public string Name { get; set; }
-        public char Age { get; set; }
+        public int Age { get; set; }
         public PersonFrom Father { get; set; }
     }
 
@@ -43,5 +41,9 @@ namespace Rey.Mapping {
         public string Name { get; set; }
         public string Age { get; set; }
         public PersonTo Father { get; set; }
+    }
+
+    public interface IInjector {
+        object MapTo(Type type, MapPath path, MapValue value, MapToContext context);
     }
 }

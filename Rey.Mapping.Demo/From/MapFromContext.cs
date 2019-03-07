@@ -1,9 +1,9 @@
 ﻿namespace Rey.Mapping {
     public class MapFromContext {
-        public IFromMapper Mapper { get; }
+        public IAggFromMapper Mapper { get; }
         public MapValueTable Values { get; } = new MapValueTable();
 
-        public MapFromContext(IFromMapper mapper) {
+        public MapFromContext(IAggFromMapper mapper) {
             this.Mapper = mapper;
         }
     }

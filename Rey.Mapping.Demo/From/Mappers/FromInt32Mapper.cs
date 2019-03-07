@@ -6,7 +6,7 @@ namespace Rey.Mapping {
             if (!typeof(Int32).Equals(type))
                 throw new MapFromFailedException();
 
-            throw new NotImplementedException();
+            context.Values.AddValue(path, new MapInt32Value((int)value));
         }
     }
 }
