@@ -21,6 +21,7 @@ namespace Rey.Mapping.Configuration {
             this.Services.AddSingleton<IAggFromMapper, AggFromMapper>();
             this
                 .AddFromMapper<FromClassMapper>()
+                .AddFromMapper<FromArrayMapper>()
                 .AddFromMapper<FromCharMapper>()
                 .AddFromMapper<FromStringMapper>()
                 .AddFromMapper<FromInt32Mapper>();
@@ -57,6 +58,7 @@ namespace Rey.Mapping.Configuration {
             this.Services.AddSingleton<IAggToMapper, AggToMapper>();
             this
                 .AddToMapper<ToClassMapper>()
+                .AddToMapper<ToArrayMapper>()
                 .AddToMapper<ToStringMapper>()
                 .AddToMapper<ToInt32Mapper>();
             return this;

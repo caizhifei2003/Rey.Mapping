@@ -2,6 +2,8 @@
     public enum MapValueType {
         Null,
         Object,
+        Array,
+
         Char,
         String,
 

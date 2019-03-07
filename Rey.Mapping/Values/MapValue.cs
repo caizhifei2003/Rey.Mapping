@@ -3,8 +3,11 @@
         public MapValueType ValueType { get; }
         public bool IsNull => this.ValueType == MapValueType.Null;
         public bool IsObject => this.ValueType == MapValueType.Object;
+        public bool IsArray => this.ValueType == MapValueType.Array;
+
         public bool IsChar => this.ValueType == MapValueType.Char;
         public bool IsString => this.ValueType == MapValueType.String;
+
         public bool IsNumber => this.ValueType >= MapValueType.Int8 && this.ValueType <= MapValueType.Decimal;
         public bool IsIntNumber => this.ValueType >= MapValueType.Int8 && this.ValueType <= MapValueType.Int64;
         public bool IsUIntNumber => this.ValueType >= MapValueType.UInt8 && this.ValueType <= MapValueType.UInt64;
@@ -15,11 +18,5 @@
         }
 
         public abstract object GetValue();
-    }
-
-    public abstract class MapNumberValue : MapValue {
-        public MapNumberValue(MapValueType valueType)
-            : base(valueType) {
-        }
     }
 }

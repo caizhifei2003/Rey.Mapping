@@ -12,5 +12,9 @@ namespace Rey.Mapping {
         public override object GetValue() {
             return this.Value;
         }
+
+        public override string ToString() {
+            return $"{this.Value}";
+        }
     }
 }

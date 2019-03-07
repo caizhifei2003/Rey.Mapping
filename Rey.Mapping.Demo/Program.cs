@@ -6,21 +6,16 @@ namespace Rey.Mapping {
         static void Main(string[] args) {
             var services = new ServiceCollection();
             services.AddReyMapping(builder => {
-                builder.AddToMapper(typeof(Int32), CustomMapToInt32);
+                //builder.AddToMapper(typeof(Int32), CustomMapToInt32);
             });
             var provider = services.BuildServiceProvider();
             var mapper = provider.GetService<IMapper>();
 
             var father = new PersonFrom { Name = "Jie", Age = 70 };
             var person = new PersonFrom { Name = "Kevin", Age = 32, Father = father };
-            //! "": person
-            //! "Name": "Kevin"
-            //! "Age": 32
-            //! "Father": father
 
-            var from1 = mapper.From(person);
-            var to1 = from1.To<PersonTo>();
-            var to2 = from1.To<PersonTo2>();
+            var from1 = mapper.From(new PersonFrom[] { person });
+            var to1 = from1.To<PersonTo[]>();
         }
 
         public static object CustomMapToInt32(Type type, MapPath path, MapToContext context) {
