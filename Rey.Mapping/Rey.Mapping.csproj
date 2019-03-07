@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Rey.Mapping.Abstracts\Rey.Mapping.Abstracts.csproj" />
-    <ProjectReference Include="..\Rey.Reflection\Rey.Reflection.csproj" />
   </ItemGroup>
 
 </Project>

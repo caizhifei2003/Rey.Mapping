@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Rey.Mapping\Rey.Mapping.csproj" />
-    <ProjectReference Include="..\Rey.Reflection\Rey.Reflection.csproj" />
   </ItemGroup>
 
 </Project>
