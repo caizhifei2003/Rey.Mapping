@@ -17,10 +17,10 @@ namespace Rey.Mapping {
             foreach (var prop in props) {
                 var propType = prop.PropertyType;
                 var propPath = path.Join(prop.Name);
-                if (!context.Values.HasValue(propPath))
+                var propValue = context.MapTo(propType, propPath);
+                if (propValue == null)
                     continue;
 
-                var propValue = context.MapTo(propType, propPath);
                 prop.SetValue(instance, propValue);
             }
             return instance;

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace Rey.Mapping.Test {
@@ -14,6 +15,13 @@ namespace Rey.Mapping.Test {
         [InlineData('x', 'x')]
         public void TestChar(char from, char expected) {
             var to = this.Mapper.From(from).To<char>();
+            Assert.Equal(expected, to);
+        }
+
+        [Theory]
+        [MemberData(nameof(GetDateTimeData))]
+        public void TestDate(DateTime from, DateTime expected) {
+            var to = this.Mapper.From(from).To<DateTime>();
             Assert.Equal(expected, to);
         }
 
@@ -112,6 +120,12 @@ namespace Rey.Mapping.Test {
         public void TestDecimal(Decimal from, Decimal expected) {
             var to = this.Mapper.From(from).To<Decimal>();
             Assert.Equal(expected, to);
+        }
+
+        public static IEnumerable<object[]> GetDateTimeData() {
+            yield return new object[] { DateTime.MaxValue, DateTime.MaxValue };
+            yield return new object[] { DateTime.MinValue, DateTime.MinValue };
+            yield return new object[] { DateTime.Today, DateTime.Today };
         }
     }
 }

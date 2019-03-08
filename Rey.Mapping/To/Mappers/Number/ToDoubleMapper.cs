@@ -8,6 +8,9 @@ namespace Rey.Mapping {
 
         public object MapTo(Type type, MapPath path, MapToContext context) {
             var value = context.Values.GetValue(path);
+            if (value == null)
+                return null;
+
             if (value.ValueType == MapValueType.Double)
                 return value.GetValue();
 

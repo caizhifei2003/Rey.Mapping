@@ -27,7 +27,10 @@ namespace Rey.Mapping {
             if (path == null)
                 throw new ArgumentNullException(nameof(path));
 
-            return this.Values[path.PathString];
+            if (!this.Values.TryGetValue(path.PathString, out var value))
+                return null;
+
+            return value;
         }
     }
 }

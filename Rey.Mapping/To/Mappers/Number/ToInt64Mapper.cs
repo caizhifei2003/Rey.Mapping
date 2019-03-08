@@ -8,6 +8,9 @@ namespace Rey.Mapping {
 
         public object MapTo(Type type, MapPath path, MapToContext context) {
             var value = context.Values.GetValue(path);
+            if (value == null)
+                return null;
+
             if (!value.IsIntNumber)
                 throw new MapToFailedException($"cannot map to Int64 by {value.ValueType}");
 
