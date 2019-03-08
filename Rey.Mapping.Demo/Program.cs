@@ -11,6 +11,9 @@ namespace Rey.Mapping {
             from.Children.Add(new PersonFrom { Name = "child 1" });
 
             var to = mapper.Map<PersonTo>(from);
+
+            var path = MapPath.Parse<PersonFrom>(x => x.Children[3].Father.Children[2].Name).PathString;
+
         }
 
         public static object CustomMapToInt32(Type type, MapPath path, MapToContext context) {

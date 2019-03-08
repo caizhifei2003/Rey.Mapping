@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace Rey.Mapping {
@@ -21,10 +20,15 @@ namespace Rey.Mapping {
             this.Separator = separator;
         }
 
-        public MapPath Join(string segment) {
-            var segments = new List<string>(this.Segments);
-            segments.Add(segment);
+        public MapPath Join(MapPath other) {
+            var segments = new List<string>();
+            segments.AddRange(this.Segments);
+            segments.AddRange(other.Segments);
             return new MapPath(segments, this.Separator);
+        }
+
+        public MapPath Join(int index) {
+            return this.Join($"[{index}]");
         }
 
         public static MapPath Parse(string path, char separator = '.') {
@@ -35,22 +39,47 @@ namespace Rey.Mapping {
             return new MapPath(segments, separator);
         }
 
+        private static MapPath Parse(MapPath path, Expression exp, char separator = '.') {
+            if (exp.NodeType == ExpressionType.Lambda) {
+                var expLambda = exp as LambdaExpression;
+                return Parse(path, expLambda.Body, separator);
+            }
+
+            if (exp.NodeType == ExpressionType.Parameter) {
+                return path;
+            }
+
+            if (exp.NodeType == ExpressionType.MemberAccess) {
+                var expMember = exp as MemberExpression;
+                var name = expMember.Member.Name;
+                var expPath = MapPath.Parse(name).Join(path);
+                if (expMember.Expression == null)
+                    return expPath;
+
+                return Parse(expPath, expMember.Expression, separator);
+            }
+
+            if (exp.NodeType == ExpressionType.Call) {
+                var expMethod = exp as MethodCallExpression;
+                if (expMethod.Method.Name.Equals("get_Item")) {
+                    var expIndex = expMethod.Arguments[0] as ConstantExpression;
+                    var index = (int)expIndex.Value;
+                    var expPath = new MapPath().Join(index).Join(path);
+                    if (expMethod.Object == null)
+                        return expPath;
+
+                    return Parse(expPath, expMethod.Object, separator);
+                }
+            }
+
+            throw new NotImplementedException();
+        }
+
         public static MapPath Parse<T>(Expression<Func<T, object>> field, char separator = '.') {
             if (field == null)
                 throw new ArgumentNullException(nameof(field));
 
-            if (field.Body.NodeType != ExpressionType.MemberAccess)
-                throw new InvalidOperationException("must be a member access expression.");
-
-            var stack = new Stack<string>();
-            for (var expMember = field.Body as MemberExpression;
-                expMember != null;
-                expMember = expMember.Expression as MemberExpression) {
-                stack.Push(expMember.Member.Name);
-            }
-
-            var segments = stack.ToList();
-            return new MapPath(segments, separator);
+            return Parse(new MapPath(), field, separator);
         }
 
         public bool Equals(MapPath other) {

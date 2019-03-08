@@ -19,9 +19,5 @@ namespace Rey.Mapping {
         public MapValue GetValue(MapPath path) {
             return this.Values[path.PathString];
         }
-
-        public MapValue GetValue(MapPath path, int index) {
-            return this.GetValue(path.Join($"[{index}]"));
-        }
     }
 }

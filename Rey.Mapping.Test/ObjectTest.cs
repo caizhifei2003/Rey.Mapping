@@ -23,7 +23,7 @@ namespace Rey.Mapping.Test {
                     });
 
                     options.MapTo(x => x.Children, (type, path, context) => {
-                        var value = context.Values.GetValue("ChildNames", 0).GetValue();
+                        var value = context.Values.GetValue("ChildNames.[0]").GetValue();
                         return new List<PersonTo2>() { new PersonTo2 { Name = $"{value}" } };
                     });
                 });
