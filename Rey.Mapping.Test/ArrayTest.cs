@@ -23,10 +23,22 @@ namespace Rey.Mapping.Test {
             yield return new object[] { new Int32[] { 1, 2, 3, 4, 5 }, new Int64[] { 1, 2, 3, 4, 5 } };
             yield return new object[] { new Int16[] { 1, 2, 3, 4, 5 }, new Int64[] { 1, 2, 3, 4, 5 } };
             yield return new object[] { new SByte[] { 1, 2, 3, 4, 5 }, new Int64[] { 1, 2, 3, 4, 5 } };
+            yield return new object[] { new Int32[] { 1, 2, 3, 4, 5 }, new Int32[] { 1, 2, 3, 4, 5 } };
+            yield return new object[] { new Int16[] { 1, 2, 3, 4, 5 }, new Int32[] { 1, 2, 3, 4, 5 } };
+            yield return new object[] { new SByte[] { 1, 2, 3, 4, 5 }, new Int32[] { 1, 2, 3, 4, 5 } };
+            yield return new object[] { new Int16[] { 1, 2, 3, 4, 5 }, new Int16[] { 1, 2, 3, 4, 5 } };
+            yield return new object[] { new SByte[] { 1, 2, 3, 4, 5 }, new Int16[] { 1, 2, 3, 4, 5 } };
+            yield return new object[] { new SByte[] { 1, 2, 3, 4, 5 }, new SByte[] { 1, 2, 3, 4, 5 } };
             yield return new object[] { new UInt64[] { 1, 2, 3, 4, 5 }, new UInt64[] { 1, 2, 3, 4, 5 } };
             yield return new object[] { new UInt32[] { 1, 2, 3, 4, 5 }, new UInt64[] { 1, 2, 3, 4, 5 } };
             yield return new object[] { new UInt16[] { 1, 2, 3, 4, 5 }, new UInt64[] { 1, 2, 3, 4, 5 } };
             yield return new object[] { new Byte[] { 1, 2, 3, 4, 5 }, new UInt64[] { 1, 2, 3, 4, 5 } };
+            yield return new object[] { new UInt32[] { 1, 2, 3, 4, 5 }, new UInt32[] { 1, 2, 3, 4, 5 } };
+            yield return new object[] { new UInt16[] { 1, 2, 3, 4, 5 }, new UInt32[] { 1, 2, 3, 4, 5 } };
+            yield return new object[] { new Byte[] { 1, 2, 3, 4, 5 }, new UInt32[] { 1, 2, 3, 4, 5 } };
+            yield return new object[] { new UInt16[] { 1, 2, 3, 4, 5 }, new UInt16[] { 1, 2, 3, 4, 5 } };
+            yield return new object[] { new Byte[] { 1, 2, 3, 4, 5 }, new UInt16[] { 1, 2, 3, 4, 5 } };
+            yield return new object[] { new Byte[] { 1, 2, 3, 4, 5 }, new Byte[] { 1, 2, 3, 4, 5 } };
         }
 
         public static IEnumerable<object[]> GetEnumerableData() {
@@ -34,10 +46,22 @@ namespace Rey.Mapping.Test {
             yield return new object[] { new List<Int32> { 1, 2, 3, 4, 5 }, new List<Int64> { 1, 2, 3, 4, 5 } };
             yield return new object[] { new List<Int16> { 1, 2, 3, 4, 5 }, new List<Int64> { 1, 2, 3, 4, 5 } };
             yield return new object[] { new List<SByte> { 1, 2, 3, 4, 5 }, new List<Int64> { 1, 2, 3, 4, 5 } };
+            yield return new object[] { new List<Int32> { 1, 2, 3, 4, 5 }, new List<Int32> { 1, 2, 3, 4, 5 } };
+            yield return new object[] { new List<Int16> { 1, 2, 3, 4, 5 }, new List<Int32> { 1, 2, 3, 4, 5 } };
+            yield return new object[] { new List<SByte> { 1, 2, 3, 4, 5 }, new List<Int32> { 1, 2, 3, 4, 5 } };
+            yield return new object[] { new List<Int16> { 1, 2, 3, 4, 5 }, new List<Int16> { 1, 2, 3, 4, 5 } };
+            yield return new object[] { new List<SByte> { 1, 2, 3, 4, 5 }, new List<Int16> { 1, 2, 3, 4, 5 } };
+            yield return new object[] { new List<SByte> { 1, 2, 3, 4, 5 }, new List<SByte> { 1, 2, 3, 4, 5 } };
             yield return new object[] { new List<UInt64> { 1, 2, 3, 4, 5 }, new List<UInt64> { 1, 2, 3, 4, 5 } };
             yield return new object[] { new List<UInt32> { 1, 2, 3, 4, 5 }, new List<UInt64> { 1, 2, 3, 4, 5 } };
             yield return new object[] { new List<UInt16> { 1, 2, 3, 4, 5 }, new List<UInt64> { 1, 2, 3, 4, 5 } };
             yield return new object[] { new List<Byte> { 1, 2, 3, 4, 5 }, new List<UInt64> { 1, 2, 3, 4, 5 } };
+            yield return new object[] { new List<UInt32> { 1, 2, 3, 4, 5 }, new List<UInt32> { 1, 2, 3, 4, 5 } };
+            yield return new object[] { new List<UInt16> { 1, 2, 3, 4, 5 }, new List<UInt32> { 1, 2, 3, 4, 5 } };
+            yield return new object[] { new List<Byte> { 1, 2, 3, 4, 5 }, new List<UInt32> { 1, 2, 3, 4, 5 } };
+            yield return new object[] { new List<UInt16> { 1, 2, 3, 4, 5 }, new List<UInt16> { 1, 2, 3, 4, 5 } };
+            yield return new object[] { new List<Byte> { 1, 2, 3, 4, 5 }, new List<UInt16> { 1, 2, 3, 4, 5 } };
+            yield return new object[] { new List<Byte> { 1, 2, 3, 4, 5 }, new List<Byte> { 1, 2, 3, 4, 5 } };
         }
     }
 }
