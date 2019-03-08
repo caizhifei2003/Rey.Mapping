@@ -7,6 +7,7 @@
 
         public bool IsChar => this.ValueType == MapValueType.Char;
         public bool IsString => this.ValueType == MapValueType.String;
+        public bool IsDate => this.ValueType == MapValueType.Date;
 
         public bool IsNumber => this.ValueType >= MapValueType.Int8 && this.ValueType <= MapValueType.Decimal;
         public bool IsIntNumber => this.ValueType >= MapValueType.Int8 && this.ValueType <= MapValueType.Int64;

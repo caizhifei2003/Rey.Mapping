@@ -22,6 +22,7 @@ namespace Rey.Mapping.Configuration {
             this
                 .AddFromMapper<FromCharMapper>()
                 .AddFromMapper<FromStringMapper>()
+                .AddFromMapper<FromDateMapper>()
                 .AddFromMapper<FromInt8Mapper>()
                 .AddFromMapper<FromInt16Mapper>()
                 .AddFromMapper<FromInt32Mapper>()
@@ -71,6 +72,7 @@ namespace Rey.Mapping.Configuration {
             this
                 .AddToMapper<ToCharMapper>()
                 .AddToMapper<ToStringMapper>()
+                .AddToMapper<ToDateMapper>()
                 .AddToMapper<ToInt8Mapper>()
                 .AddToMapper<ToInt16Mapper>()
                 .AddToMapper<ToInt32Mapper>()

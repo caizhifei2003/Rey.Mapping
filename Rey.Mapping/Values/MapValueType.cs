@@ -4,6 +4,7 @@
 
         Char,
         String,
+        Date,
 
         Int8,
         Int16,

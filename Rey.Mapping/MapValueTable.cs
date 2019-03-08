@@ -16,7 +16,17 @@ namespace Rey.Mapping {
             return this;
         }
 
+        public bool HasValue(MapPath path) {
+            if (path == null)
+                throw new ArgumentNullException(nameof(path));
+
+            return this.Values.ContainsKey(path.PathString);
+        }
+
         public MapValue GetValue(MapPath path) {
+            if (path == null)
+                throw new ArgumentNullException(nameof(path));
+
             return this.Values[path.PathString];
         }
     }
