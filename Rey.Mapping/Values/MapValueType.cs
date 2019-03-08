@@ -1,8 +1,6 @@
 ﻿namespace Rey.Mapping {
     public enum MapValueType {
         Null,
-        Object,
-        Array,
 
         Char,
         String,
@@ -20,5 +18,8 @@
         Float,
         Double,
         Decimal,
+
+        Array,
+        Object,
     }
 }

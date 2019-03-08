@@ -7,8 +7,7 @@ namespace Rey.Mapping {
         }
 
         public object MapTo(Type type, MapPath path, MapToContext context) {
-            var value = context.Values.GetValue(path).GetValue();
-            return Convert.ChangeType(value, typeof(Int32));
+            return context.Values.GetValue(path).GetValue();
         }
     }
 }

@@ -20,12 +20,23 @@ namespace Rey.Mapping.Configuration {
         public MappingBuilder AddDefaultFromMappers() {
             this.Services.AddSingleton<IAggFromMapper, AggFromMapper>();
             this
-                .AddFromMapper<FromClassMapper>()
-                .AddFromMapper<FromArrayMapper>()
-                .AddFromMapper<FromEnumerableMapper>()
                 .AddFromMapper<FromCharMapper>()
                 .AddFromMapper<FromStringMapper>()
-                .AddFromMapper<FromInt32Mapper>();
+                .AddFromMapper<FromInt8Mapper>()
+                .AddFromMapper<FromInt16Mapper>()
+                .AddFromMapper<FromInt32Mapper>()
+                .AddFromMapper<FromInt64Mapper>()
+                .AddFromMapper<FromUInt8Mapper>()
+                .AddFromMapper<FromUInt16Mapper>()
+                .AddFromMapper<FromUInt32Mapper>()
+                .AddFromMapper<FromUInt64Mapper>()
+                .AddFromMapper<FromFloatMapper>()
+                .AddFromMapper<FromDoubleMapper>()
+                .AddFromMapper<FromDecimalMapper>()
+                .AddFromMapper<FromArrayMapper>()
+                .AddFromMapper<FromEnumerableMapper>()
+                .AddFromMapper<FromClassMapper>()
+                ;
             return this;
         }
 
@@ -58,11 +69,23 @@ namespace Rey.Mapping.Configuration {
         public MappingBuilder AddDefaultToMappers() {
             this.Services.AddSingleton<IAggToMapper, AggToMapper>();
             this
-                .AddToMapper<ToClassMapper>()
+                .AddToMapper<ToCharMapper>()
+                .AddToMapper<ToStringMapper>()
+                .AddToMapper<ToInt8Mapper>()
+                .AddToMapper<ToInt16Mapper>()
+                .AddToMapper<ToInt32Mapper>()
+                .AddToMapper<ToInt64Mapper>()
+                .AddToMapper<ToUInt8Mapper>()
+                .AddToMapper<ToUInt16Mapper>()
+                .AddToMapper<ToUInt32Mapper>()
+                .AddToMapper<ToUInt64Mapper>()
+                .AddToMapper<ToFloatMapper>()
+                .AddToMapper<ToDoubleMapper>()
+                .AddToMapper<ToDecimalMapper>()
                 .AddToMapper<ToArrayMapper>()
                 .AddToMapper<ToEnumerableMapper>()
-                .AddToMapper<ToStringMapper>()
-                .AddToMapper<ToInt32Mapper>();
+                .AddToMapper<ToClassMapper>()
+                ;
             return this;
         }
 
