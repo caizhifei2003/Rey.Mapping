@@ -27,7 +27,7 @@ namespace Rey.Mapping {
             }
 
             var tArr = elemType.MakeArrayType();
-            var arr = context.Mapper.MapTo(tArr, path, context);
+            var arr = context.MapTo(tArr, path);
             var mToList = typeof(Enumerable).GetMethod("ToList").MakeGenericMethod(elemType);
             var list = mToList.Invoke(null, new object[] { arr });
             //var ret = Convert.ChangeType(list, type);
