@@ -1,9 +1,11 @@
-﻿namespace Rey.Mapping {
-    public class MapFloatValue : MapNumberValue {
-        public float Value { get; }
+﻿using System;
 
-        public MapFloatValue(float value)
-            : base(MapValueType.Float) {
+namespace Rey.Mapping {
+    public class MapSingleValue : MapNumberValue {
+        public Single Value { get; }
+
+        public MapSingleValue(Single value)
+            : base(MapValueType.Single) {
             this.Value = value;
         }
 

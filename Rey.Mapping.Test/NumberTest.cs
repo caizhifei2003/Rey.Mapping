@@ -62,5 +62,13 @@ namespace Rey.Mapping.Test {
             var to = this.Mapper.From(from).To<UInt16>();
             Assert.Equal(expected, to);
         }
+
+        [Theory]
+        [InlineData(Single.MinValue, Single.MinValue)]
+        [InlineData(Single.MaxValue, Single.MaxValue)]
+        public void TestDoubleCast<T>(T from, double expected) {
+            var to = this.Mapper.From(from).To<double>();
+            Assert.Equal(expected, to);
+        }
     }
 }

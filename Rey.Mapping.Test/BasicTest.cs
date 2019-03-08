@@ -21,8 +21,8 @@ namespace Rey.Mapping.Test {
         [InlineData(SByte.MinValue, SByte.MinValue)]
         [InlineData(SByte.MaxValue, SByte.MaxValue)]
         [InlineData(-1, -1)]
-        public void TestInt8(sbyte from, sbyte expected) {
-            var to = this.Mapper.From(from).To<sbyte>();
+        public void TestInt8(SByte from, SByte expected) {
+            var to = this.Mapper.From(from).To<SByte>();
             Assert.Equal(expected, to);
         }
 
@@ -54,11 +54,11 @@ namespace Rey.Mapping.Test {
         }
 
         [Theory]
-        [InlineData(byte.MinValue, byte.MinValue)]
-        [InlineData(byte.MaxValue, byte.MaxValue)]
+        [InlineData(Byte.MinValue, Byte.MinValue)]
+        [InlineData(Byte.MaxValue, Byte.MaxValue)]
         [InlineData(1, 1)]
-        public void TestUInt8(byte from, byte expected) {
-            var to = this.Mapper.From(from).To<byte>();
+        public void TestUInt8(Byte from, Byte expected) {
+            var to = this.Mapper.From(from).To<Byte>();
             Assert.Equal(expected, to);
         }
 
@@ -90,27 +90,27 @@ namespace Rey.Mapping.Test {
         }
 
         [Theory]
-        [InlineData(float.MinValue, float.MinValue)]
-        [InlineData(float.MaxValue, float.MaxValue)]
+        [InlineData(Single.MinValue, Single.MinValue)]
+        [InlineData(Single.MaxValue, Single.MaxValue)]
         [InlineData(1.23, 1.23)]
-        public void TestFloat(float from, float expected) {
-            var to = this.Mapper.From(from).To<float>();
+        public void TestFloat(Single from, Single expected) {
+            var to = this.Mapper.From(from).To<Single>();
             Assert.Equal(expected, to);
         }
 
         [Theory]
-        [InlineData(double.MinValue, double.MinValue)]
-        [InlineData(double.MaxValue, double.MaxValue)]
+        [InlineData(Double.MinValue, Double.MinValue)]
+        [InlineData(Double.MaxValue, Double.MaxValue)]
         [InlineData(1.23, 1.23)]
-        public void TestDouble(double from, double expected) {
-            var to = this.Mapper.From(from).To<double>();
+        public void TestDouble(Double from, Double expected) {
+            var to = this.Mapper.From(from).To<Double>();
             Assert.Equal(expected, to);
         }
 
         [Theory]
         [InlineData(1.23, 1.23)]
-        public void TestDecimal(decimal from, decimal expected) {
-            var to = this.Mapper.From(from).To<decimal>();
+        public void TestDecimal(Decimal from, Decimal expected) {
+            var to = this.Mapper.From(from).To<Decimal>();
             Assert.Equal(expected, to);
         }
     }

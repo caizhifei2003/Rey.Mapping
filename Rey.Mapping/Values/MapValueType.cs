@@ -15,7 +15,7 @@
         UInt32,
         UInt64,
 
-        Float,
+        Single,
         Double,
         Decimal,
 

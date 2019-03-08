@@ -1,8 +1,10 @@
-﻿namespace Rey.Mapping {
-    public class MapUInt8Value : MapNumberValue {
-        public byte Value { get; }
+﻿using System;
 
-        public MapUInt8Value(byte value)
+namespace Rey.Mapping {
+    public class MapUInt8Value : MapNumberValue {
+        public Byte Value { get; }
+
+        public MapUInt8Value(Byte value)
             : base(MapValueType.UInt8) {
             this.Value = value;
         }

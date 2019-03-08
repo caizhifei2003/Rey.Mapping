@@ -11,7 +11,7 @@
         public bool IsNumber => this.ValueType >= MapValueType.Int8 && this.ValueType <= MapValueType.Decimal;
         public bool IsIntNumber => this.ValueType >= MapValueType.Int8 && this.ValueType <= MapValueType.Int64;
         public bool IsUIntNumber => this.ValueType >= MapValueType.UInt8 && this.ValueType <= MapValueType.UInt64;
-        public bool IsFloatNumber => this.ValueType >= MapValueType.Float && this.ValueType <= MapValueType.Decimal;
+        public bool IsFloatNumber => this.ValueType >= MapValueType.Single && this.ValueType <= MapValueType.Decimal;
 
         public MapValue(MapValueType valueType) {
             this.ValueType = valueType;

@@ -1,9 +1,9 @@
 ﻿using System;
 
 namespace Rey.Mapping {
-    public class ToFloatMapper : IToMapper {
+    public class ToSingleMapper : IToMapper {
         public bool CanMapTo(Type type, MapPath path) {
-            return typeof(float).Equals(type);
+            return typeof(Single).Equals(type);
         }
 
         public object MapTo(Type type, MapPath path, MapToContext context) {
