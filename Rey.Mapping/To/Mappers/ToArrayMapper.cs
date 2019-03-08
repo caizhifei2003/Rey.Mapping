@@ -19,7 +19,7 @@ namespace Rey.Mapping {
             var arr = Activator.CreateInstance(tArr, new object[] { length });
             var mSet = tArr.GetMethod("Set", BindingFlags.Public | BindingFlags.Instance);
             for (var i = 0; i < length; ++i) {
-                var elem = context.MapTo(elemType, path.Join($"[{i}]"));
+                var elem = context.MapTo(elemType, path.Join(i));
                 mSet.Invoke(arr, new object[] { i, elem });
             }
 

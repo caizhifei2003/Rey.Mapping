@@ -20,7 +20,7 @@ namespace Rey.Mapping {
             var mGet = type.GetMethod("Get", BindingFlags.Public | BindingFlags.Instance);
             for (var i = 0; i < length; ++i) {
                 var elem = mGet.Invoke(value, new object[] { i });
-                context.Mapper.MapFrom(elemType, elem, path.Join($"[{i}]"), context);
+                context.Mapper.MapFrom(elemType, elem, path.Join(i), context);
             }
         }
     }
