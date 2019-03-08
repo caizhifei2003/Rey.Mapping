@@ -7,7 +7,14 @@ namespace Rey.Mapping {
         }
 
         public object MapTo(Type type, MapPath path, MapToContext context) {
-            return context.Values.GetValue(path).GetValue();
+            var value = context.Values.GetValue(path);
+            if (!value.IsUIntNumber || value.ValueType > MapValueType.UInt32)
+                throw new MapToFailedException($"cannot map to UInt32 by {value.ValueType}");
+
+            if (value.ValueType == MapValueType.UInt32)
+                return value.GetValue();
+
+            return Convert.ChangeType(value.GetValue(), typeof(UInt32));
         }
     }
 }

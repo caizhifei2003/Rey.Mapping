@@ -7,7 +7,14 @@ namespace Rey.Mapping {
         }
 
         public object MapTo(Type type, MapPath path, MapToContext context) {
-            return context.Values.GetValue(path).GetValue();
+            var value = context.Values.GetValue(path);
+            if (!value.IsIntNumber)
+                throw new MapToFailedException($"cannot map to Int64 by {value.ValueType}");
+
+            if (value.ValueType == MapValueType.Int64)
+                return value.GetValue();
+
+            return Convert.ChangeType(value.GetValue(), typeof(Int64));
         }
     }
 }

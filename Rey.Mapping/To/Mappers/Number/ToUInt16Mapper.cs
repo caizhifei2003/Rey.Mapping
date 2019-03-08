@@ -7,7 +7,14 @@ namespace Rey.Mapping {
         }
 
         public object MapTo(Type type, MapPath path, MapToContext context) {
-            return context.Values.GetValue(path).GetValue();
+            var value = context.Values.GetValue(path);
+            if (!value.IsUIntNumber || value.ValueType > MapValueType.UInt16)
+                throw new MapToFailedException($"cannot map to UInt16 by {value.ValueType}");
+
+            if (value.ValueType == MapValueType.UInt16)
+                return value.GetValue();
+
+            return Convert.ChangeType(value.GetValue(), typeof(UInt16));
         }
     }
 }
