@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace Rey.Mapping {
     public class MapPath : IEquatable<MapPath> {
@@ -30,6 +32,24 @@ namespace Rey.Mapping {
                 throw new ArgumentNullException(nameof(path));
 
             var segments = path.Split(separator);
+            return new MapPath(segments, separator);
+        }
+
+        public static MapPath Parse<T>(Expression<Func<T, object>> field, char separator = '.') {
+            if (field == null)
+                throw new ArgumentNullException(nameof(field));
+
+            if (field.Body.NodeType != ExpressionType.MemberAccess)
+                throw new InvalidOperationException("must be a member access expression.");
+
+            var stack = new Stack<string>();
+            for (var expMember = field.Body as MemberExpression;
+                expMember != null;
+                expMember = expMember.Expression as MemberExpression) {
+                stack.Push(expMember.Member.Name);
+            }
+
+            var segments = stack.ToList();
             return new MapPath(segments, separator);
         }
 

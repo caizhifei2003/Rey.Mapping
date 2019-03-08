@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using Xunit;
 
 namespace Rey.Mapping.Test {

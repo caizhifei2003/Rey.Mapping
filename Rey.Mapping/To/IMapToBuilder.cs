@@ -7,7 +7,7 @@ namespace Rey.Mapping {
         object To(Type type, Action<IMapToOptions> build);
 
         T To<T>();
-        T To<T>(IMapToOptions options);
-        T To<T>(Action<IMapToOptions> build);
+        T To<T>(IMapToOptions<T> options);
+        T To<T>(Action<IMapToOptions<T>> build);
     }
 }

@@ -17,13 +17,13 @@ namespace Rey.Mapping.Test {
         public void TestObject2(PersonFrom2 from, PersonTo2 expected) {
             var to = this.Mapper.From(from)
                 .To<PersonTo2>(options => {
-                    options.MapTo("Father", (type, path, context) => {
+                    options.MapTo(x => x.Father, (type, path, context) => {
                         var value = context.Values.GetValue("FatherName").GetValue();
                         return new PersonTo2() { Name = $"{value}" };
                     });
 
-                    options.MapTo("Children", (type, path, context) => {
-                        var value = context.Values.GetValue("ChildNames.[0]").GetValue();
+                    options.MapTo(x => x.Children, (type, path, context) => {
+                        var value = context.Values.GetValue("ChildNames", 0).GetValue();
                         return new List<PersonTo2>() { new PersonTo2 { Name = $"{value}" } };
                     });
                 });

@@ -24,8 +24,8 @@ namespace Rey.Mapping {
             if (options == null)
                 throw new InvalidOperationException(nameof(options));
 
-            var context = new MapToContext(options, this.Mapper.ToMapper, this.Values);
-            return context.MapTo(type, new MapPath());
+            return new MapToContext(options, this.Mapper.ToMapper, this.Values)
+                .MapTo(type, new MapPath());
         }
 
         public object To(Type type, Action<IMapToOptions> build) {
@@ -41,21 +41,23 @@ namespace Rey.Mapping {
         }
 
         public T To<T>() {
-            return (T)this.To(typeof(T));
+            return this.To<T>(new MapToOptions<T>());
         }
 
-        public T To<T>(IMapToOptions options) {
+        public T To<T>(IMapToOptions<T> options) {
             if (options == null)
                 throw new InvalidOperationException(nameof(options));
 
             return (T)this.To(typeof(T), options);
         }
 
-        public T To<T>(Action<IMapToOptions> build) {
+        public T To<T>(Action<IMapToOptions<T>> build) {
             if (build == null)
                 throw new InvalidOperationException(nameof(build));
 
-            return (T)this.To(typeof(T), build);
+            var options = new MapToOptions<T>();
+            build.Invoke(options);
+            return this.To<T>(options);
         }
     }
 }
