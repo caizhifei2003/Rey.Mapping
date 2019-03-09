@@ -17,7 +17,7 @@ namespace Rey.Mapping {
             var props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
             foreach (var prop in props) {
                 var propValue = prop.GetValue(value);
-                context.Mapper.MapFrom(prop.PropertyType, propValue, path.Join(prop.Name), context);
+                context.MapFrom(prop.PropertyType, propValue, path.Join(prop.Name));
             }
         }
     }

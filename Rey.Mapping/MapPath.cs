@@ -102,6 +102,10 @@ namespace Rey.Mapping {
             return this.GetHashCode().Equals(obj.GetHashCode());
         }
 
+        public override string ToString() {
+            return this.PathString;
+        }
+
         public static implicit operator MapPath(string path) {
             return MapPath.Parse(path);
         }

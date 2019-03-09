@@ -29,7 +29,7 @@ namespace Rey.Mapping {
             var tArr = elemType.MakeArrayType();
             var mToArray = typeof(Enumerable).GetMethod("ToArray").MakeGenericMethod(elemType);
             var arr = mToArray.Invoke(null, new object[] { value });
-            context.Mapper.MapFrom(tArr, arr, path, context);
+            context.MapFrom(tArr, arr, path);
         }
     }
 }
