@@ -5,6 +5,7 @@
         Char,
         String,
         Date,
+        Enum,
 
         Int8,
         Int16,
