@@ -26,6 +26,14 @@ namespace Rey.Mapping.Test {
         }
 
         [Theory]
+        [InlineData(GenderFrom.Male, GenderTo.Male)]
+        [InlineData(GenderFrom.Female, GenderTo.Female)]
+        public void TestEnum(GenderFrom from, GenderTo expected) {
+            var to = this.Mapper.From(from).To<GenderTo>();
+            Assert.Equal(expected, to);
+        }
+
+        [Theory]
         [InlineData(SByte.MinValue, SByte.MinValue)]
         [InlineData(SByte.MaxValue, SByte.MaxValue)]
         public void TestInt8(SByte from, SByte expected) {
@@ -121,6 +129,16 @@ namespace Rey.Mapping.Test {
         public static IEnumerable<object[]> GetDecimalData() {
             yield return new object[] { Decimal.MaxValue, Decimal.MaxValue };
             yield return new object[] { Decimal.MinValue, Decimal.MinValue };
+        }
+
+        public enum GenderFrom {
+            Male,
+            Female,
+        }
+
+        public enum GenderTo {
+            Male,
+            Female,
         }
     }
 }
