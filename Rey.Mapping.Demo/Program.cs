@@ -1,13 +1,12 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Rey.Mapping.Configuration;
 using System;
 using System.Collections.Generic;
 
 namespace Rey.Mapping {
     class Program {
         static void Main(string[] args) {
-            var provider = new ServiceCollection().AddReyMapping().BuildServiceProvider();
-            var mapper = provider.GetService<IMapper>();
-            var to = mapper.From(new PersonFrom() { Gender = GenderFrom.Female }).To<PersonTo>();
+            var mapper = new MappingBuilder().Build();
+            var to = mapper.From(new List<PersonFrom> { new PersonFrom() { Gender = GenderFrom.Female } }).To<List<PersonTo>>();
 
         }
 

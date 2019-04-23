@@ -4,6 +4,8 @@ namespace Rey.Mapping.Configuration {
     public interface IMappingBuilder {
         MappingOptions Options { get; set; }
 
+        IMapper Build();
+
         IMappingBuilder AddFromMapper<T>()
             where T : class, IFromMapper;
 

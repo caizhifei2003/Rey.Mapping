@@ -11,6 +11,15 @@ namespace Rey.Mapping.Configuration {
             this.Options = options ?? new MappingOptions();
         }
 
+        public IMapper Build() {
+            return this.Services
+                .Clone()
+                .AddSingleton(this.Options)
+                .AddMappingDefaults()
+                .BuildServiceProvider()
+                .GetService<IMapper>();
+        }
+
         public IMappingBuilder AddFromMapper<T>()
             where T : class, IFromMapper {
             this.Services.AddSingleton<IFromMapper, T>();
@@ -69,7 +78,7 @@ namespace Rey.Mapping.Configuration {
             return this;
         }
 
-        public MappingBuilder AddDefaultToMappers() {
+        private MappingBuilder AddDefaultToMappers() {
             this.Services.AddSingleton<IAggToMapper, AggToMapper>();
             this
                 .AddToMapper<ToCharMapper>()
@@ -95,13 +104,13 @@ namespace Rey.Mapping.Configuration {
             return this;
         }
 
-        public MappingBuilder AddDefaultMapper() {
+        private MappingBuilder AddDefaultMapper() {
             this.Services.AddSingleton(this.Options);
             this.Services.AddSingleton<IMapper, Mapper>();
             return this;
         }
 
-        public MappingBuilder AddDefault() {
+        private MappingBuilder AddDefaults() {
             return this
                 .AddDefaultFromMappers()
                 .AddDefaultToMappers()
