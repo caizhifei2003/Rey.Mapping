@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Rey.Mapping.Models\Rey.Mapping.Models.csproj" />
     <ProjectReference Include="..\Rey.Mapping\Rey.Mapping.csproj" />
   </ItemGroup>
 
