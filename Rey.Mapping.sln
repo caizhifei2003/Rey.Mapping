@@ -5,15 +5,11 @@ VisualStudioVersion = 15.0.28307.421
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rey.Mapping", "Rey.Mapping\Rey.Mapping.csproj", "{0AB249F7-D7B5-4BD3-A213-C0959FAA489D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rey.Mapping.Demo", "Rey.Mapping.Demo\Rey.Mapping.Demo.csproj", "{0916C2A5-7D96-4CD0-8690-D57CB2F38D61}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rey.Mapping.Test", "Rey.Mapping.Test\Rey.Mapping.Test.csproj", "{EE875865-C935-4896-8786-89BDB779F352}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rey.Mapping.Abstracts", "Rey.Mapping.Abstracts\Rey.Mapping.Abstracts.csproj", "{7D73B154-12FF-4B91-95F2-4AB0227B86E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rey.Mapping.Abstracts", "Rey.Mapping.Abstracts\Rey.Mapping.Abstracts.csproj", "{7D73B154-12FF-4B91-95F2-4AB0227B86E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rey.Mapping.Core", "Rey.Mapping.Core\Rey.Mapping.Core.csproj", "{9F973FD2-3CAF-4520-AC26-6B65F3C77FCE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rey.Mapping.Models", "Rey.Mapping.Models\Rey.Mapping.Models.csproj", "{59EA7811-30B4-48D7-847F-623E16876C14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rey.Mapping.Core", "Rey.Mapping.Core\Rey.Mapping.Core.csproj", "{9F973FD2-3CAF-4520-AC26-6B65F3C77FCE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +21,6 @@ Global
 		{0AB249F7-D7B5-4BD3-A213-C0959FAA489D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0AB249F7-D7B5-4BD3-A213-C0959FAA489D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0AB249F7-D7B5-4BD3-A213-C0959FAA489D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0916C2A5-7D96-4CD0-8690-D57CB2F38D61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0916C2A5-7D96-4CD0-8690-D57CB2F38D61}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0916C2A5-7D96-4CD0-8690-D57CB2F38D61}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0916C2A5-7D96-4CD0-8690-D57CB2F38D61}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EE875865-C935-4896-8786-89BDB779F352}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EE875865-C935-4896-8786-89BDB779F352}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE875865-C935-4896-8786-89BDB779F352}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -41,10 +33,6 @@ Global
 		{9F973FD2-3CAF-4520-AC26-6B65F3C77FCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F973FD2-3CAF-4520-AC26-6B65F3C77FCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F973FD2-3CAF-4520-AC26-6B65F3C77FCE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{59EA7811-30B4-48D7-847F-623E16876C14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{59EA7811-30B4-48D7-847F-623E16876C14}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{59EA7811-30B4-48D7-847F-623E16876C14}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{59EA7811-30B4-48D7-847F-623E16876C14}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
