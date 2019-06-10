@@ -65,7 +65,7 @@ namespace Rey.Mapping {
 
             var converter = this._converters.FirstOrDefault(x => x.CanSerialize(fromValue, fromType, options));
             if (converter == null)
-                throw new InvalidOperationException($"无法找到转换器。[type: {fromType}][value: {fromValue}]");
+                throw new InvalidOperationException($"无法找到转换器。[value: {fromValue}][type: {fromType}]");
 
             var context = new MapSerializeContext(this, this._deserializer);
             return converter.Serialize(fromValue, fromType, options, context);
@@ -91,8 +91,31 @@ namespace Rey.Mapping {
     }
 
     public class MapDeserializer : IMapDeserializer {
+        private readonly IEnumerable<IMapConverter> _converters;
+
+        public MapDeserializer(IEnumerable<IMapConverter> converters) {
+            this._converters = converters;
+        }
+
         public object Deserialize(IMapNode node, Type toType, IDeserializeOptions options) {
-            throw new NotImplementedException();
+            var converter = this._converters.FirstOrDefault(x => x.CanDeserialize(node, toType, options));
+            if (converter == null)
+                throw new InvalidOperationException($"无法找到转换器。[node: {node}][type: {toType}]");
+
+            var context = new MapDeserializeContext(this);
+            return converter.Deserialize(node, toType, options, context);
+        }
+    }
+
+    public class MapDeserializeContext : IMapDeserializeContext {
+        private readonly IMapDeserializer _deserializer;
+
+        public MapDeserializeContext(IMapDeserializer deserializer) {
+            this._deserializer = deserializer;
+        }
+
+        public object Deserialize(IMapNode node, Type toType, IDeserializeOptions options) {
+            return this._deserializer.Deserialize(node, toType, options);
         }
     }
 
@@ -111,22 +134,45 @@ namespace Rey.Mapping {
         }
     }
 
-    public abstract class MapConverter<T> : IMapConverter {
-        public virtual bool CanSerialize(object fromValue, Type fromType, ISerializeOptions options) {
-            return typeof(T).Equals(fromType);
+    public class MapStringConverter : IMapConverter {
+        private static readonly List<Type> TYPES = new List<Type>() {
+            typeof(char),
+            typeof(string),
+            typeof(DateTime),
+            typeof(TimeSpan)
+        };
+
+        public bool CanSerialize(object fromValue, Type fromType, ISerializeOptions options) {
+            return TYPES.Any(x => x.Equals(fromType));
         }
 
-        public abstract IMapNode Serialize(object fromValue, Type fromType, ISerializeOptions options, IMapSerializeContext context);
-    }
-
-    public class MapStringConverter : MapConverter<string> {
-        public override IMapNode Serialize(object fromValue, Type fromType, ISerializeOptions options, IMapSerializeContext context) {
+        public IMapNode Serialize(object fromValue, Type fromType, ISerializeOptions options, IMapSerializeContext context) {
             return context.CreateNode(new MapStringToken($"{fromValue}", fromType));
+        }
+
+        public bool CanDeserialize(IMapNode node, Type toType, IDeserializeOptions options) {
+            return TYPES.Any(x => x.Equals(toType));
+        }
+
+        public object Deserialize(IMapNode node, Type toType, IDeserializeOptions options, IMapDeserializeContext context) {
+            var value = node.Token.GetStringValue();
+            if (typeof(char).Equals(toType))
+                return char.Parse(value);
+
+            if (typeof(DateTime).Equals(toType))
+                return DateTime.Parse(value);
+
+            if (typeof(TimeSpan).Equals(toType))
+                return TimeSpan.Parse(value);
+
+            return value;
         }
     }
 
     public abstract class MapToken : IMapToken {
-
+        public virtual string GetStringValue() {
+            throw new NotImplementedException();
+        }
     }
 
     public abstract class MapToken<TValue> : MapToken, IMapToken<TValue> {
@@ -142,6 +188,10 @@ namespace Rey.Mapping {
     public class MapStringToken : MapToken<string> {
         public MapStringToken(string fromValue, Type fromType)
             : base(fromValue, fromType) {
+        }
+
+        public override string GetStringValue() {
+            return this.FromValue;
         }
     }
 

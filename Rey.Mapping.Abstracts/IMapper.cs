@@ -34,7 +34,7 @@ namespace Rey.Mapping {
     }
 
     public interface IMapToken {
-
+        string GetStringValue();
     }
 
     public interface IMapToken<TValue> : IMapToken {
@@ -45,6 +45,9 @@ namespace Rey.Mapping {
     public interface IMapConverter {
         bool CanSerialize(object fromValue, Type fromType, ISerializeOptions options);
         IMapNode Serialize(object fromValue, Type fromType, ISerializeOptions options, IMapSerializeContext context);
+
+        bool CanDeserialize(IMapNode node, Type toType, IDeserializeOptions options);
+        object Deserialize(IMapNode node, Type toType, IDeserializeOptions options, IMapDeserializeContext context);
     }
 
     public interface IMapSerializeContext {
@@ -53,6 +56,6 @@ namespace Rey.Mapping {
     }
 
     public interface IMapDeserializeContext {
-
+        object Deserialize(IMapNode node, Type toType, IDeserializeOptions options);
     }
 }
