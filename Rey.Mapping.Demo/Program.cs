@@ -17,8 +17,6 @@ namespace Rey.Mapping {
             var node = mapper.From("t");
             var origin = node.To<char>();
 
-
-
             Console.WriteLine("Hello World!");
         }
     }

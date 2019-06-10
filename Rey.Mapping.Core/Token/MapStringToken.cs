@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace Rey.Mapping {
-    public class MapStringToken : MapToken<string> {
+    public class MapStringToken : MapValueToken<string> {
         public MapStringToken(string fromValue, Type fromType)
             : base(fromValue, fromType) {
         }

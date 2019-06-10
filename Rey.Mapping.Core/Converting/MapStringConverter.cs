@@ -13,6 +13,9 @@ namespace Rey.Mapping {
         };
 
         public bool CanSerialize(object fromValue, Type fromType, IMapSerializeOptions options) {
+            if (fromType == null)
+                throw new ArgumentNullException(nameof(fromType));
+
             return TYPES.Any(x => x.Equals(fromType));
         }
 
