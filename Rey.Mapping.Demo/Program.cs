@@ -14,8 +14,8 @@ namespace Rey.Mapping {
             var serializer = new MapSerializer(converters, deserializer);
 
             var mapper = new Mapper(options, serializer);
-            var node = mapper.From("t");
-            var origin = node.To<char>();
+            var node = mapper.From("2019-06-10 10:10:10");
+            var origin = node.To<DateTime>();
 
             Console.WriteLine("Hello World!");
         }
