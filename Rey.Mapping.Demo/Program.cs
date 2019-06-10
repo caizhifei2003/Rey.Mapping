@@ -6,8 +6,6 @@ namespace Rey.Mapping {
     class Program {
         static void Main(string[] args) {
             var options = new MapperOptions();
-            var sOptions = new MapSerializeOptions();
-            var dOptions = new MapDeserializeOptions();
 
             var converters = new List<IMapConverter>();
             converters.Add(new MapStringConverter());
@@ -16,8 +14,8 @@ namespace Rey.Mapping {
             var serializer = new MapSerializer(converters, deserializer);
 
             var mapper = new Mapper(options, serializer);
-            var node = mapper.From("test");
-            var origin = node.To<string>();
+            var node = mapper.From("t");
+            var origin = node.To<char>();
 
 
 
