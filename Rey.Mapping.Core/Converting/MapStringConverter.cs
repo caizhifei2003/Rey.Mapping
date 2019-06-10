@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Rey.Mapping {
     public class MapStringConverter : IMapConverter {
-        private static readonly List<Type> TYPES = new List<Type>() {
+        private static readonly IEnumerable<Type> TYPES = new List<Type>() {
             typeof(char),
             typeof(string),
             typeof(DateTime),
