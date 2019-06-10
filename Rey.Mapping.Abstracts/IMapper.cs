@@ -28,11 +28,18 @@ namespace Rey.Mapping {
     }
 
     public interface IMapNode {
-        object Value { get; }
-        object Type { get; }
-        IReadOnlyList<IMapNode> Children { get; }
+        IMapToken Token { get; }
 
-        object To(Type type, IDeserializeOptions options = null);
+        object To(Type toType, IDeserializeOptions options);
+    }
+
+    public interface IMapToken {
+
+    }
+
+    public interface IMapToken<TValue> : IMapToken {
+        TValue FromValue { get; }
+        Type FromType { get; }
     }
 
     public interface IMapConverter {
@@ -42,6 +49,7 @@ namespace Rey.Mapping {
 
     public interface IMapSerializeContext {
         IMapNode Serialize(object fromValue, Type fromType, ISerializeOptions options);
+        IMapNode CreateNode(IMapToken token);
     }
 
     public interface IMapDeserializeContext {
