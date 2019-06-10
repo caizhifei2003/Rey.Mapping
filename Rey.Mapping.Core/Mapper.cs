@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Rey.Mapping.Core {
@@ -14,31 +15,17 @@ namespace Rey.Mapping.Core {
             this._serializer = serializer;
         }
 
-        public IMapTree From(object from, Type type = null, ISerializeOptions options = null) {
-            if (from == null)
-                throw new ArgumentNullException(nameof(from));
+        public IMapNode From(object fromValue, Type fromType, ISerializeOptions options) {
+            if (fromValue == null)
+                throw new ArgumentNullException(nameof(fromValue));
 
-            return this._serializer.Serialize(from, type, options);
-        }
-    }
+            if (fromType == null)
+                throw new ArgumentNullException(nameof(fromType));
 
-    public class MapTree : IMapTree {
-        private readonly IMapTreeNode _root;
-        private readonly IMapDeserializer _deserializer;
+            if (options == null)
+                throw new ArgumentNullException(nameof(options));
 
-        public MapTree(
-            IMapTreeNode root,
-            IMapDeserializer deserializer
-            ) {
-            this._root = root;
-            this._deserializer = deserializer;
-        }
-
-        public object To(Type type, IDeserializeOptions options = null) {
-            if (type == null)
-                throw new ArgumentNullException(nameof(type));
-
-            return this._deserializer.Deserialize(this, type, options);
+            return this._serializer.Serialize(fromValue, fromType, options);
         }
     }
 
@@ -53,42 +40,35 @@ namespace Rey.Mapping.Core {
             this._deserializer = deserializer;
         }
 
-        public IMapTree Serialize(object value, Type type = null, ISerializeOptions options = null, IMapSerializeContext context = null) {
-            if (value == null)
-                throw new ArgumentNullException(nameof(value));
+        public IMapNode Serialize(object fromValue, Type fromType, ISerializeOptions options) {
+            if (fromValue == null)
+                throw new ArgumentNullException(nameof(fromValue));
 
-            type = type ?? value.GetType();
-            foreach (var converter in this._converters) {
-                if (converter.CanSerialize(value, type)) {
-                    var root = converter.Serialize(value, type, context ?? new MapSerializeContext(this, value, type, options));
-                    return new MapTree(root, this._deserializer);
-                }
-            }
+            if (fromType == null)
+                throw new ArgumentNullException(nameof(fromType));
 
-            throw new NotImplementedException("未找到转换器");
+            if (options == null)
+                throw new ArgumentNullException(nameof(options));
+
+
+            var converter = this._converters.FirstOrDefault(x => x.CanSerialize(fromValue, fromType, options));
+            if (converter == null)
+                throw new InvalidOperationException($"无法找到转换器。[type: {fromType}][value: {fromValue}]");
+
+            var context = new MapSerializeContext(this);
+            return converter.Serialize(fromValue, fromType, options, context);
         }
     }
 
     public class MapSerializeContext : IMapSerializeContext {
         private readonly IMapSerializer _serializer;
 
-        public object FromValue { get; }
-        public Type FromType { get; }
-        public ISerializeOptions Options { get; }
-
-        public MapSerializeContext(
-            IMapSerializer serializer,
-            object fromValue,
-            Type fromType,
-            ISerializeOptions options) {
+        public MapSerializeContext(IMapSerializer serializer) {
             this._serializer = serializer;
-            this.FromValue = fromValue;
-            this.FromType = fromType;
-            this.Options = options;
         }
 
-        public void Serialize(object value, Type type = null) {
-            this._serializer.Serialize(value, type, null, this);
+        public IMapNode Serialize(object fromValue, Type fromType, ISerializeOptions options) {
+            return this._serializer.Serialize(fromValue, fromType, options);
         }
     }
 }
