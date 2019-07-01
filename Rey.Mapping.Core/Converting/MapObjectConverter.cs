@@ -15,9 +15,6 @@ namespace Rey.Mapping {
 
         public object Deserialize(IMapToken token, Type toType, IMapDeserializeOptions options, IMapDeserializeContext context) {
             var ret = Activator.CreateInstance(toType);
-            if (token.IsNull)
-                return null;
-
             var objToken = token as MapObjectToken;
             foreach (var item in objToken.Tokens) {
                 var prop = toType.GetProperty(item.Key);
@@ -33,11 +30,6 @@ namespace Rey.Mapping {
             var tokens = new Dictionary<string, IMapToken>();
             foreach (var prop in props) {
                 var value = prop.GetValue(fromValue);
-                if (value == null) {
-                    tokens.Add(prop.Name, new MapNullToken(prop.PropertyType));
-                    continue;
-                }
-
                 var token = context.Serialize(value, prop.PropertyType, options);
                 tokens.Add(prop.Name, token);
             }

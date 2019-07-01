@@ -30,7 +30,7 @@ namespace Rey.Mapping {
             .Union(TYPES_UNSIGNED);
 
         public bool CanDeserialize(IMapToken token, Type toType, IMapDeserializeOptions options) {
-            throw new NotImplementedException();
+            return TYPES.Any(x => x.Equals(toType));
         }
 
         public bool CanSerialize(object fromValue, Type fromType, IMapSerializeOptions options) {

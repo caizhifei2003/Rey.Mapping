@@ -2,8 +2,8 @@
 
 namespace Rey.Mapping {
     public class MapDoubleToken : MapValueToken<Double> {
-        public MapDoubleToken(Double fromValue, Type fromType)
-            : base(fromValue, fromType) {
+        public MapDoubleToken(Double value, Type type)
+            : base(value, type) {
         }
     }
 }

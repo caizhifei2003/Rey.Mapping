@@ -12,9 +12,6 @@ namespace Rey.Mapping {
         }
 
         public IMapToken Serialize(object fromValue, Type fromType, IMapSerializeOptions options) {
-            if (fromValue == null)
-                throw new ArgumentNullException(nameof(fromValue));
-
             if (fromType == null)
                 throw new ArgumentNullException(nameof(fromType));
 

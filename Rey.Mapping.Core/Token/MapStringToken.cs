@@ -2,8 +2,8 @@
 
 namespace Rey.Mapping {
     public class MapStringToken : MapValueToken<string> {
-        public MapStringToken(string fromValue, Type fromType)
-            : base(fromValue, fromType) {
+        public MapStringToken(string value, Type type)
+            : base(value, type) {
         }
     }
 }

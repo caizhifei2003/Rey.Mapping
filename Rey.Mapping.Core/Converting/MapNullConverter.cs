@@ -4,7 +4,7 @@ using System;
 namespace Rey.Mapping {
     public class MapNullConverter : IMapConverter {
         public bool CanDeserialize(IMapToken token, Type toType, IMapDeserializeOptions options) {
-            return !toType.IsValueType && token.IsNull;
+            return !toType.IsValueType && token is MapNullToken;
         }
 
         public bool CanSerialize(object fromValue, Type fromType, IMapSerializeOptions options) {
