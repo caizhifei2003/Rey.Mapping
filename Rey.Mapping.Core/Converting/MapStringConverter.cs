@@ -19,16 +19,16 @@ namespace Rey.Mapping {
             return TYPES.Any(x => x.Equals(fromType));
         }
 
-        public IMapNode Serialize(object fromValue, Type fromType, IMapSerializeOptions options, IMapSerializeContext context) {
-            return context.CreateNode(new MapStringToken($"{fromValue}", fromType));
+        public IMapToken Serialize(object fromValue, Type fromType, IMapSerializeOptions options, IMapSerializeContext context) {
+            return new MapStringToken($"{fromValue}", fromType);
         }
 
-        public bool CanDeserialize(IMapNode node, Type toType, IMapDeserializeOptions options) {
+        public bool CanDeserialize(IMapToken token, Type toType, IMapDeserializeOptions options) {
             return TYPES.Any(x => x.Equals(toType));
         }
 
-        public object Deserialize(IMapNode node, Type toType, IMapDeserializeOptions options, IMapDeserializeContext context) {
-            var value = node.Token.GetStringValue();
+        public object Deserialize(IMapToken token, Type toType, IMapDeserializeOptions options, IMapDeserializeContext context) {
+            var value = token.GetStringValue();
             if (typeof(char).Equals(toType))
                 return char.Parse(value);
 

@@ -13,7 +13,7 @@ namespace Rey.Mapping {
             this._serializer = serializer;
         }
 
-        public IMapNode From(object fromValue, Type fromType, IMapSerializeOptions options) {
+        public IMapToken From(object fromValue, Type fromType, IMapSerializeOptions options) {
             if (fromValue == null)
                 throw new ArgumentNullException(nameof(fromValue));
 

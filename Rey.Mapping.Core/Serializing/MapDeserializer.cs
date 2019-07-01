@@ -11,13 +11,13 @@ namespace Rey.Mapping {
             this._converters = converters;
         }
 
-        public object Deserialize(IMapNode node, Type toType, IMapDeserializeOptions options) {
-            var converter = this._converters.FirstOrDefault(x => x.CanDeserialize(node, toType, options));
+        public object Deserialize(IMapToken token, Type toType, IMapDeserializeOptions options) {
+            var converter = this._converters.FirstOrDefault(x => x.CanDeserialize(token, toType, options));
             if (converter == null)
-                throw new InvalidOperationException($"无法找到转换器。[node: {node}][type: {toType}]");
+                throw new InvalidOperationException($"无法找到转换器。[node: {token}][type: {toType}]");
 
             var context = new MapDeserializeContext(this);
-            return converter.Deserialize(node, toType, options, context);
+            return converter.Deserialize(token, toType, options, context);
         }
     }
 }

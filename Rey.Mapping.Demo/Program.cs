@@ -10,12 +10,11 @@ namespace Rey.Mapping {
             var converters = new List<IMapConverter>();
             converters.Add(new MapStringConverter());
 
+            var serializer = new MapSerializer(converters);
             var deserializer = new MapDeserializer(converters);
-            var serializer = new MapSerializer(converters, deserializer);
 
-            var mapper = new Mapper(options, serializer);
-            var node = mapper.From("2019-06-10 10:10:10");
-            var origin = node.To<DateTime>();
+            var token = serializer.Serialize("2019-06-10 10:10:10", typeof(string), new MapSerializeOptions());
+            var origin = deserializer.Deserialize(token, typeof(DateTime), new MapDeserializeOptions());
 
             Console.WriteLine("Hello World!");
         }
