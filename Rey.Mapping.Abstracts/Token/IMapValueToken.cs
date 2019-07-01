@@ -2,10 +2,10 @@
 
 namespace Rey.Mapping {
     public interface IMapValueToken : IMapToken {
-        Type FromType { get; }
+        Type Type { get; }
     }
 
     public interface IMapValueToken<TValue> : IMapValueToken {
-        TValue FromValue { get; }
+        TValue Value { get; }
     }
 }

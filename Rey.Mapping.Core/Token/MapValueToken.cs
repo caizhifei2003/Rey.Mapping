@@ -2,19 +2,19 @@
 
 namespace Rey.Mapping {
     public abstract class MapValueToken : MapToken, IMapValueToken {
-        public Type FromType { get; }
+        public Type Type { get; }
 
-        public MapValueToken(Type fromType) {
-            this.FromType = fromType;
+        public MapValueToken(Type type) {
+            this.Type = type;
         }
     }
 
     public abstract class MapValueToken<TValue> : MapValueToken, IMapValueToken<TValue> {
-        public TValue FromValue { get; }
+        public TValue Value { get; }
 
-        public MapValueToken(TValue fromValue, Type fromType)
-            : base(fromType) {
-            this.FromValue = fromValue;
+        public MapValueToken(TValue value, Type type)
+            : base(type) {
+            this.Value = value;
         }
     }
 }
