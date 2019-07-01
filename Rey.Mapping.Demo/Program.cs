@@ -25,7 +25,12 @@ namespace Rey.Mapping {
             }
 
             {
-                var value = mapper.From(new From { Name = "kevin", Child = new From2 { Name = "bao" } }).To<To>();
+                var from = new From {
+                    Name = "kevin",
+                    Child = new From2 { Name = "bao" },
+                    Age = 123,
+                };
+                var to = mapper.From(from).To<To>();
             }
         }
     }
@@ -34,6 +39,7 @@ namespace Rey.Mapping {
         public string Name { get; set; }
         public From2 Child { get; set; }
         public From2 Child2 { get; set; }
+        public Int32 Age { get; set; }
     }
 
     public class From2 {
@@ -44,6 +50,7 @@ namespace Rey.Mapping {
         public string Name { get; set; }
         public To2 Child { get; set; }
         public To2 Child2 { get; set; }
+        public Int64 Age { get; set; }
     }
 
     public class To2 {

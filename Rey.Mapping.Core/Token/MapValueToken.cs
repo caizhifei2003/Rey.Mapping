@@ -7,6 +7,10 @@ namespace Rey.Mapping {
         public MapValueToken(Type type) {
             this.Type = type;
         }
+
+        public abstract bool Compatible(Type type);
+
+        public abstract object GetValue(Type type);
     }
 
     public abstract class MapValueToken<TValue> : MapValueToken, IMapValueToken<TValue> {
