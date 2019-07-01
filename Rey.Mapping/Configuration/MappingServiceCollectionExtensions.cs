@@ -16,6 +16,7 @@ namespace Microsoft.Extensions.DependencyInjection {
             services.AddSingleton<IMapConverter, MapNullConverter>();
             services.AddSingleton<IMapConverter, MapNumberConverter>();
             services.AddSingleton<IMapConverter, MapStringConverter>();
+            services.AddSingleton<IMapConverter, MapNullableConverter>();
             services.AddSingleton<IMapConverter, MapObjectConverter>();
 
             return services;

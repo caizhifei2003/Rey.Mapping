@@ -1,8 +1,8 @@
 ﻿namespace Rey.Mapping {
-    public class MapNullableToken<TValue> : MapToken {
-        public MapValueToken<TValue> Token { get; }
+    public class MapNullableToken : MapToken {
+        public IMapToken Token { get; }
 
-        public MapNullableToken(MapValueToken<TValue> token) {
+        public MapNullableToken(IMapToken token) {
             this.Token = token;
         }
     }

@@ -14,6 +14,9 @@ namespace Rey.Mapping {
         }
 
         public object Deserialize(IMapToken token, Type toType, IMapDeserializeOptions options, IMapDeserializeContext context) {
+            if (token is MapNullToken)
+                return null;
+
             var ret = Activator.CreateInstance(toType);
             var objToken = token as MapObjectToken;
             foreach (var item in objToken.Tokens) {

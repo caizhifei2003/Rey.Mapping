@@ -8,7 +8,7 @@ namespace Rey.Mapping {
         }
 
         public bool CanSerialize(object fromValue, Type fromType, IMapSerializeOptions options) {
-            return !fromType.IsValueType && fromValue == null;
+            return fromValue == null;
         }
 
         public object Deserialize(IMapToken token, Type toType, IMapDeserializeOptions options, IMapDeserializeContext context) {
