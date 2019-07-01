@@ -11,11 +11,11 @@ namespace Rey.Mapping {
 
         static IMapSerializer Serializer { get; } = new MapSerializer(Converters);
         static IMapDeserializer Deserializer { get; } = new MapDeserializer(Converters);
+        static IMapper Mapper { get; } = new Mapper(new MapperOptions(), Serializer, Deserializer);
 
         static void Main(string[] args) {
             {
-                var token = Serializer.Serialize("2019-06-10 10:10:10", typeof(string), new MapSerializeOptions());
-                var origin = Deserializer.Deserialize(token, typeof(DateTime), new MapDeserializeOptions());
+                var value = Mapper.From("2019-06-10 10:10:10").To<DateTime>();
             }
 
             {

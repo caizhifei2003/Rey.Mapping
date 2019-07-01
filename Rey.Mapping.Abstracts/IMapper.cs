@@ -3,6 +3,6 @@ using System;
 
 namespace Rey.Mapping {
     public interface IMapper {
-        IMapToken From(object fromValue, Type fromType, IMapSerializeOptions options);
+        IMapTokenWrapper From(object fromValue, Type fromType, IMapSerializeOptions options);
     }
 }
