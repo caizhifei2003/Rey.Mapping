@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rey.Mapping.Abstracts", "Re
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rey.Mapping.Core", "Rey.Mapping.Core\Rey.Mapping.Core.csproj", "{9F973FD2-3CAF-4520-AC26-6B65F3C77FCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rey.Mapping.Demo", "Rey.Mapping.Demo\Rey.Mapping.Demo.csproj", "{870F3BA4-15E8-47B2-A15C-49F9FEC4434A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rey.Mapping.Demo", "Rey.Mapping.Demo\Rey.Mapping.Demo.csproj", "{870F3BA4-15E8-47B2-A15C-49F9FEC4434A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rey.Mapping.Test", "Rey.Mapping.Test\Rey.Mapping.Test.csproj", "{0549E37E-6079-4F10-82C4-6CCD9E2777C8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{870F3BA4-15E8-47B2-A15C-49F9FEC4434A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{870F3BA4-15E8-47B2-A15C-49F9FEC4434A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{870F3BA4-15E8-47B2-A15C-49F9FEC4434A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0549E37E-6079-4F10-82C4-6CCD9E2777C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0549E37E-6079-4F10-82C4-6CCD9E2777C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0549E37E-6079-4F10-82C4-6CCD9E2777C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0549E37E-6079-4F10-82C4-6CCD9E2777C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
