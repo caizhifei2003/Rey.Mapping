@@ -1,11 +1,11 @@
 ﻿using System;
 
 namespace Rey.Mapping {
-    public class MapTokenWrapper : IMapTokenWrapper {
+    public class MapMedia : IMapMedia {
         private readonly IMapToken _token;
         private readonly IMapDeserializer _deserializer;
 
-        public MapTokenWrapper(IMapToken token, IMapDeserializer deserializer) {
+        public MapMedia(IMapToken token, IMapDeserializer deserializer) {
             this._token = token;
             this._deserializer = deserializer;
         }
@@ -14,6 +14,4 @@ namespace Rey.Mapping {
             return this._deserializer.Deserialize(this._token, toType, options);
         }
     }
-
-
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace Rey.Mapping {
-    public interface IMapTokenWrapper {
+    public interface IMapMedia {
         object To(Type toType, IMapDeserializeOptions options);
     }
 }

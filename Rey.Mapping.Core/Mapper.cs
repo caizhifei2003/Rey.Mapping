@@ -12,7 +12,7 @@ namespace Rey.Mapping {
             this._deserializer = deserializer;
         }
 
-        public IMapTokenWrapper From(object fromValue, Type fromType, IMapSerializeOptions options) {
+        public IMapMedia From(object fromValue, Type fromType, IMapSerializeOptions options) {
             if (fromValue == null)
                 throw new ArgumentNullException(nameof(fromValue));
 
@@ -23,7 +23,7 @@ namespace Rey.Mapping {
                 throw new ArgumentNullException(nameof(options));
 
             var token = this._serializer.Serialize(fromValue, fromType, options);
-            return new MapTokenWrapper(token, this._deserializer);
+            return new MapMedia(token, this._deserializer);
         }
     }
 }
