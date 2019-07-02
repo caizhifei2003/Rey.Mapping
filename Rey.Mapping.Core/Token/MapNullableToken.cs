@@ -1,11 +1,12 @@
 ﻿using System;
 
 namespace Rey.Mapping {
-    public class MapNullableToken : MapToken {
-        public IMapToken Token { get; }
+    public class MapNullableToken : MapValueToken {
+        public Type InnerType { get; }
 
-        public MapNullableToken(IMapToken token) {
-            this.Token = token;
+        public MapNullableToken(Type type, Type innerType)
+            : base(type) {
+            this.InnerType = innerType;
         }
 
         public override bool Compatible(Type type) {

@@ -7,20 +7,23 @@ namespace Rey.Mapping {
         }
 
         public override bool Compatible(Type type) {
-            return type.Equals(typeof(Byte)) || type.Equals(typeof(UInt16)) || type.Equals(typeof(UInt32)) || type.Equals(typeof(UInt64));
+            return type.Equals<Byte>() || type.Equals<Byte?>()
+                || type.Equals<UInt16>() || type.Equals<UInt16?>()
+                || type.Equals<UInt32>() || type.Equals<UInt32?>()
+                || type.Equals<UInt64>() || type.Equals<UInt64?>();
         }
 
         public override object GetValue(Type type) {
-            if (type.Equals(typeof(Byte)))
+            if (type.Equals<Byte>() || type.Equals<Byte?>())
                 return this.Value;
 
-            if (type.Equals(typeof(UInt16)))
+            if (type.Equals<UInt16>() || type.Equals<UInt16?>())
                 return (UInt16)this.Value;
 
-            if (type.Equals(typeof(UInt32)))
+            if (type.Equals<UInt32>() || type.Equals<UInt32?>())
                 return (UInt32)this.Value;
 
-            if (type.Equals(typeof(UInt64)))
+            if (type.Equals<UInt64>() || type.Equals<UInt64?>())
                 return (UInt64)this.Value;
 
             throw new NotImplementedException();

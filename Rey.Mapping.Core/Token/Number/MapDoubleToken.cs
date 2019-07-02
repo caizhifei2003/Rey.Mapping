@@ -7,11 +7,11 @@ namespace Rey.Mapping {
         }
 
         public override bool Compatible(Type type) {
-            return type.Equals(typeof(Double));
+            return type.Equals<double>() || type.Equals<double?>();
         }
 
         public override object GetValue(Type type) {
-            if (type.Equals(typeof(Double)))
+            if (type.Equals<double>() || type.Equals<double?>())
                 return this.Value;
 
             throw new NotImplementedException();

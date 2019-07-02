@@ -7,11 +7,11 @@ namespace Rey.Mapping {
         }
 
         public override bool Compatible(Type type) {
-            return type.Equals(typeof(UInt64));
+            return type.Equals<UInt64>() || type.Equals<UInt64?>();
         }
 
         public override object GetValue(Type type) {
-            if (type.Equals(typeof(UInt64)))
+            if (type.Equals<UInt64>() || type.Equals<UInt64?>())
                 return this.Value;
 
             throw new NotImplementedException();

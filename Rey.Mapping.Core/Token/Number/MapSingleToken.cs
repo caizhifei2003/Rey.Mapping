@@ -7,14 +7,15 @@ namespace Rey.Mapping {
         }
 
         public override bool Compatible(Type type) {
-            return type.Equals(typeof(Single)) || type.Equals(typeof(Double));
+            return type.Equals<Single>() || type.Equals<Single?>()
+                || type.Equals<Double>() || type.Equals<Double?>();
         }
 
         public override object GetValue(Type type) {
-            if (type.Equals(typeof(Single)))
+            if (type.Equals<Single>() || type.Equals<Single?>())
                 return this.Value;
 
-            if (type.Equals(typeof(Double)))
+            if (type.Equals<Double>() || type.Equals<Double?>())
                 return (Double)this.Value;
 
             throw new NotImplementedException();

@@ -48,7 +48,7 @@ namespace Rey.Mapping {
         //public Int64 Age { get; set; }
         //public Int64? Height { get; set; }
         //public Int64? Width { get; set; }
-        public Int64[] Fields1 { get; set; }
+        public Int64?[] Fields1 { get; set; }
     }
 
     public class To2 {
