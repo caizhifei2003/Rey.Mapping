@@ -4,19 +4,18 @@ using System.Linq;
 
 namespace Rey.Mapping {
     public class MapDeserializer : IMapDeserializer {
-        private readonly IEnumerable<IMapConverter> _converters;
+        private readonly IEnumerable<IMapDeserializeConverter> _converters;
 
-        public MapDeserializer(IEnumerable<IMapConverter> converters) {
+        public MapDeserializer(IEnumerable<IMapDeserializeConverter> converters) {
             this._converters = converters;
         }
 
-        public object Deserialize(IMapToken token, Type toType, IMapDeserializeOptions options, IMapDeserializeContext context = null) {
-            var converter = this._converters.FirstOrDefault(x => x.CanDeserialize(token, toType, options));
+        public object Deserialize(MapPath path, Type toType, IMapDeserializeOptions options, IMapDeserializeContext context) {
+            var converter = this._converters.FirstOrDefault(x => x.CanDeserialize(path, toType, options, context));
             if (converter == null)
-                throw new InvalidOperationException($"无法找到转换器。[node: {token}][type: {toType}]");
+                throw new InvalidOperationException($"无法找到转换器。[node: {path}][type: {toType}]");
 
-            context = context ?? new MapDeserializeContext(this);
-            return converter.Deserialize(token, toType, options, context);
+            return converter.Deserialize(path, toType, options, context);
         }
     }
 }

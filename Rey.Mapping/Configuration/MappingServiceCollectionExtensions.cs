@@ -12,12 +12,15 @@ namespace Microsoft.Extensions.DependencyInjection {
             services.AddSingleton<IMapSerializer, MapSerializer>();
             services.AddSingleton<IMapDeserializer, MapDeserializer>();
 
-            services.AddSingleton<IMapConverter, MapNullConverter>();
-            services.AddSingleton<IMapConverter, MapNumberConverter>();
-            services.AddSingleton<IMapConverter, MapStringConverter>();
-            services.AddSingleton<IMapConverter, MapNullableConverter>();
-            services.AddSingleton<IMapConverter, MapArrayConverter>();
-            services.AddSingleton<IMapConverter, MapObjectConverter>();
+            services.AddSingleton<IMapSerializeConverter, MapStringConverter>();
+            services.AddSingleton<IMapDeserializeConverter, MapStringConverter>();
+
+            //services.AddSingleton<IMapConverter, MapNullConverter>();
+            //services.AddSingleton<IMapConverter, MapNumberConverter>();
+            //services.AddSingleton<IMapConverter, MapStringConverter>();
+            //services.AddSingleton<IMapConverter, MapNullableConverter>();
+            //services.AddSingleton<IMapConverter, MapArrayConverter>();
+            //services.AddSingleton<IMapConverter, MapObjectConverter>();
 
             return services;
         }

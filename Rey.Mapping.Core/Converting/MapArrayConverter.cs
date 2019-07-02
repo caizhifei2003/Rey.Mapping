@@ -4,69 +4,69 @@ using System.Linq;
 using System.Reflection;
 
 namespace Rey.Mapping {
-    public class MapArrayConverter : IMapConverter {
-        public bool CanDeserialize(IMapToken token, Type toType, IMapDeserializeOptions options) {
-            return token is MapArrayToken && (ArrayUtil.IsArray(toType) || EnumerableUtil.IsEnumerable(toType));
-        }
+    //public class MapArrayConverter : IMapConverter {
+    //    public bool CanDeserialize(IMapToken token, Type toType, IMapDeserializeOptions options) {
+    //        return token is MapArrayToken && (ArrayUtil.IsArray(toType) || EnumerableUtil.IsEnumerable(toType));
+    //    }
 
-        public bool CanSerialize(object fromValue, Type fromType, IMapSerializeOptions options) {
-            return ArrayUtil.IsArray(fromType) || EnumerableUtil.IsEnumerable(fromType);
-        }
+    //    public bool CanSerialize(object fromValue, Type fromType, IMapSerializeOptions options) {
+    //        return ArrayUtil.IsArray(fromType) || EnumerableUtil.IsEnumerable(fromType);
+    //    }
 
-        public object Deserialize(IMapToken token, Type toType, IMapDeserializeOptions options, IMapDeserializeContext context) {
-            var tokens = (token as MapArrayToken).Tokens.ToList();
-            if (ArrayUtil.IsArray(toType)) {
-                var elemType = ArrayUtil.GetElementType(toType);
-                var arr = ArrayUtil.CreateInstance(elemType, tokens.Count);
-                for (var i = 0; i < tokens.Count; ++i) {
-                    var value = context.Deserialize(tokens[i], elemType, options);
-                    ArrayUtil.SetValue(toType, arr, i, value);
-                }
-                return arr;
-            }
+    //    public object Deserialize(IMapToken token, Type toType, IMapDeserializeOptions options, IMapDeserializeContext context) {
+    //        var tokens = (token as MapArrayToken).Tokens.ToList();
+    //        if (ArrayUtil.IsArray(toType)) {
+    //            var elemType = ArrayUtil.GetElementType(toType);
+    //            var arr = ArrayUtil.CreateInstance(elemType, tokens.Count);
+    //            for (var i = 0; i < tokens.Count; ++i) {
+    //                var value = context.Deserialize(tokens[i], elemType, options);
+    //                ArrayUtil.SetValue(toType, arr, i, value);
+    //            }
+    //            return arr;
+    //        }
 
-            if (EnumerableUtil.IsEnumerable(toType)) {
-                var elemType = EnumerableUtil.GetElementType(toType);
-                var arr = ArrayUtil.CreateInstance(elemType, tokens.Count);
-                for (var i = 0; i < tokens.Count; ++i) {
-                    var value = context.Deserialize(tokens[i], elemType, options);
-                    ArrayUtil.SetValue(arr.GetType(), arr, i, value);
-                }
-                return EnumerableUtil.ToList(elemType, arr);
-            }
+    //        if (EnumerableUtil.IsEnumerable(toType)) {
+    //            var elemType = EnumerableUtil.GetElementType(toType);
+    //            var arr = ArrayUtil.CreateInstance(elemType, tokens.Count);
+    //            for (var i = 0; i < tokens.Count; ++i) {
+    //                var value = context.Deserialize(tokens[i], elemType, options);
+    //                ArrayUtil.SetValue(arr.GetType(), arr, i, value);
+    //            }
+    //            return EnumerableUtil.ToList(elemType, arr);
+    //        }
 
-            throw new NotImplementedException();
-        }
+    //        throw new NotImplementedException();
+    //    }
 
-        public IMapToken Serialize(object fromValue, Type fromType, IMapSerializeOptions options, IMapSerializeContext context) {
-            if (ArrayUtil.IsArray(fromType)) {
-                var count = ArrayUtil.GetCount(fromType, fromValue);
-                var elemType = ArrayUtil.GetElementType(fromType);
-                var tokens = new List<IMapToken>();
-                for (var i = 0; i < count; ++i) {
-                    var value = ArrayUtil.GetValue(fromType, fromValue, i);
-                    var token = context.Serialize(value, elemType, options);
-                    tokens.Add(token);
-                }
-                return new MapArrayToken(tokens);
-            }
+    //    public IMapToken Serialize(object fromValue, Type fromType, IMapSerializeOptions options, IMapSerializeContext context) {
+    //        if (ArrayUtil.IsArray(fromType)) {
+    //            var count = ArrayUtil.GetCount(fromType, fromValue);
+    //            var elemType = ArrayUtil.GetElementType(fromType);
+    //            var tokens = new List<IMapToken>();
+    //            for (var i = 0; i < count; ++i) {
+    //                var value = ArrayUtil.GetValue(fromType, fromValue, i);
+    //                var token = context.Serialize(value, elemType, options);
+    //                tokens.Add(token);
+    //            }
+    //            return new MapArrayToken(tokens);
+    //        }
 
-            if (EnumerableUtil.IsEnumerable(fromType)) {
-                var elemType = EnumerableUtil.GetElementType(fromType);
-                var count = EnumerableUtil.GetCount(elemType, fromValue);
-                var arr = EnumerableUtil.ToArray(elemType, fromValue);
-                var tokens = new List<IMapToken>();
-                for (var i = 0; i < count; ++i) {
-                    var value = ArrayUtil.GetValue(arr.GetType(), arr, i);
-                    var token = context.Serialize(value, elemType, options);
-                    tokens.Add(token);
-                }
-                return new MapArrayToken(tokens);
-            }
+    //        if (EnumerableUtil.IsEnumerable(fromType)) {
+    //            var elemType = EnumerableUtil.GetElementType(fromType);
+    //            var count = EnumerableUtil.GetCount(elemType, fromValue);
+    //            var arr = EnumerableUtil.ToArray(elemType, fromValue);
+    //            var tokens = new List<IMapToken>();
+    //            for (var i = 0; i < count; ++i) {
+    //                var value = ArrayUtil.GetValue(arr.GetType(), arr, i);
+    //                var token = context.Serialize(value, elemType, options);
+    //                tokens.Add(token);
+    //            }
+    //            return new MapArrayToken(tokens);
+    //        }
 
-            throw new NotImplementedException();
-        }
-    }
+    //        throw new NotImplementedException();
+    //    }
+    //}
 
     internal static class ArrayUtil {
         public static bool IsArray(Type type) {

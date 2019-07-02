@@ -5,6 +5,7 @@ using System.Linq;
 namespace Rey.Mapping {
     public class MapPath {
         public static readonly string DELIMITER = ".";
+        public static readonly MapPath Root = new MapPath();
 
         private readonly Stack<string> _segments;
 

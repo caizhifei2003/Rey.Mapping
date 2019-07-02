@@ -22,8 +22,10 @@ namespace Rey.Mapping {
             if (options == null)
                 throw new ArgumentNullException(nameof(options));
 
-            var token = this._serializer.Serialize(fromValue, fromType, options);
-            return new MapMedia(token, this._deserializer);
+            var table = new MapTable();
+            var context = new MapSerializeContext(this._serializer, table);
+            this._serializer.Serialize(MapPath.Root, fromValue, fromType, options, context);
+            return new MapMedia(table, this._deserializer);
         }
     }
 }

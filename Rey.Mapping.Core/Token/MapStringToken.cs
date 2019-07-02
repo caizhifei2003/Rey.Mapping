@@ -4,8 +4,8 @@ using System.Linq;
 
 namespace Rey.Mapping {
     public class MapStringToken : MapValueToken<string> {
-        public MapStringToken(string value, Type type)
-            : base(value, type) {
+        public MapStringToken(string value)
+            : base(value, typeof(string)) {
         }
 
         public override bool Compatible(Type type) {

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Rey.Mapping {
     public class MapArrayToken : MapToken {
@@ -6,6 +7,14 @@ namespace Rey.Mapping {
 
         public MapArrayToken(IEnumerable<IMapToken> tokens) {
             this.Tokens = new List<IMapToken>(tokens);
+        }
+
+        public override bool Compatible(Type type) {
+            throw new NotImplementedException();
+        }
+
+        public override object GetValue(Type type) {
+            throw new NotImplementedException();
         }
     }
 }

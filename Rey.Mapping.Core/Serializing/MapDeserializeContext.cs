@@ -5,18 +5,15 @@ namespace Rey.Mapping {
         private readonly IMapDeserializer _deserializer;
 
         public MapPath Path { get; } = new MapPath();
+        public IMapTable Table { get; }
 
-        public MapDeserializeContext(IMapDeserializer deserializer) {
+        public MapDeserializeContext(IMapDeserializer deserializer, IMapTable table) {
             this._deserializer = deserializer;
+            this.Table = table;
         }
 
-        public object Deserialize(IMapToken token, Type toType, IMapDeserializeOptions options, string segment = null) {
-            try {
-                if (segment != null) this.Path.Push(segment);
-                return this._deserializer.Deserialize(token, toType, options, this);
-            } finally {
-                if (segment != null) this.Path.Pop();
-            }
+        public object Deserialize(MapPath path, Type toType, IMapDeserializeOptions options) {
+            return this._deserializer.Deserialize(path, toType, options, this);
         }
     }
 }
