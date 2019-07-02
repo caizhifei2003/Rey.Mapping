@@ -1,9 +1,9 @@
 ﻿using System;
 
 namespace Rey.Mapping {
-    public class MapSingleToken : MapValueToken<Single> {
-        public MapSingleToken(Single value, Type type)
-            : base(value, type) {
+    public class MapSingleToken : MapNumberToken<Single> {
+        public MapSingleToken(Single value)
+            : base(value) {
         }
 
         public override bool Compatible(Type type) {

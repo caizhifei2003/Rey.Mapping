@@ -1,9 +1,9 @@
 ﻿using System;
 
 namespace Rey.Mapping {
-    public class MapUInt64Token : MapValueToken<UInt64> {
-        public MapUInt64Token(UInt64 value, Type type)
-            : base(value, type) {
+    public class MapUInt64Token : MapNumberToken<UInt64> {
+        public MapUInt64Token(UInt64 value)
+            : base(value) {
         }
 
         public override bool Compatible(Type type) {

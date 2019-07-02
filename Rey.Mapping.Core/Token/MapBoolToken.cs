@@ -2,16 +2,16 @@
 
 namespace Rey.Mapping {
     public class MapBoolToken : MapValueToken<bool> {
-        public MapBoolToken(bool value, Type type)
-            : base(value, type) {
+        public MapBoolToken(bool value)
+            : base(value, typeof(bool)) {
         }
 
         public override bool Compatible(Type type) {
-            return type.Equals(typeof(bool));
+            return type.Equals<bool>();
         }
 
         public override object GetValue(Type type) {
-            if (type.Equals(typeof(bool)))
+            if (type.Equals<bool>())
                 return this.Value;
 
             throw new NotImplementedException();

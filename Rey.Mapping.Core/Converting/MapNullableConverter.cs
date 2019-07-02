@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Rey.Mapping {
+﻿namespace Rey.Mapping {
     //public class MapNullableConverter : IMapConverter {
     //    private static bool IsNullable(Type type) {
     //        return Nullable.GetUnderlyingType(type) != null;

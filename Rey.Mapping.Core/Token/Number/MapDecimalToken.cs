@@ -1,9 +1,9 @@
 ﻿using System;
 
 namespace Rey.Mapping {
-    public class MapDecimalToken : MapValueToken<Decimal> {
-        public MapDecimalToken(Decimal value, Type type)
-            : base(value, type) {
+    public class MapDecimalToken : MapNumberToken<Decimal> {
+        public MapDecimalToken(Decimal value)
+            : base(value) {
         }
 
         public override bool Compatible(Type type) {

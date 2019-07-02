@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Rey.Mapping {
+﻿namespace Rey.Mapping {
     //public class MapNullConverter : IMapConverter {
     //    public bool CanDeserialize(IMapToken token, Type toType, IMapDeserializeOptions options) {
     //        return !toType.IsValueType && token is MapNullToken;
