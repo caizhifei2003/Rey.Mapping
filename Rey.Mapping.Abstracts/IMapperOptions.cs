@@ -1,4 +1,4 @@
-﻿namespace Rey.Mapping.Configuration {
+﻿namespace Rey.Mapping {
     public interface IMapperOptions {
 
     }

@@ -1,5 +1,4 @@
 ﻿using Rey.Mapping;
-using Rey.Mapping.Configuration;
 using System;
 
 namespace Microsoft.Extensions.DependencyInjection {

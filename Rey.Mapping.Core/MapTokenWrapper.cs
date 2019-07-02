@@ -1,5 +1,4 @@
-﻿using Rey.Mapping.Configuration;
-using System;
+﻿using System;
 
 namespace Rey.Mapping {
     public class MapTokenWrapper : IMapTokenWrapper {

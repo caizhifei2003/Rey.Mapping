@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Rey.Mapping.Configuration {
+namespace Rey.Mapping {
     public class MapDeserializeOptions : IMapDeserializeOptions {
         private readonly List<MapPath> _ignores = new List<MapPath>();
 
