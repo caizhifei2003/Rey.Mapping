@@ -21,7 +21,14 @@ namespace Rey.Mapping {
             var objToken = token as MapObjectToken;
             foreach (var item in objToken.Tokens) {
                 var prop = toType.GetProperty(item.Key);
-                var value = context.Deserialize(item.Value, prop.PropertyType, options);
+                var name = prop.Name;
+                var path = context.Path.Append(name);
+
+                //! ignore member by options;
+                if (options.IsIgnore(path))
+                    continue;
+
+                var value = context.Deserialize(item.Value, prop.PropertyType, options, name);
                 prop.SetValue(ret, value);
             }
 

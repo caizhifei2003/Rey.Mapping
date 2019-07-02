@@ -21,7 +21,7 @@ namespace Rey.Mapping {
                     //Height = 180,
                     //Fields1 = new int[] { 1, 2, 3 }
                 };
-                var to = mapper.From(from, options => options.Ignore("Child")).To<To>();
+                var to = mapper.From(from).To<To>(options => options.Ignore("Child.Name"));
             }
         }
     }
