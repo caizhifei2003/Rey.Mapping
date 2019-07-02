@@ -23,6 +23,9 @@ namespace Rey.Mapping {
                     continue;
 
                 var value = prop.GetValue(fromValue);
+                if (value == null)
+                    continue;
+
                 context.Serialize(subPath, value, type, options);
             }
         }
