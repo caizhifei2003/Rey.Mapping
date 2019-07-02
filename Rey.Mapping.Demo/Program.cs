@@ -16,19 +16,19 @@ namespace Rey.Mapping {
             {
                 var from = new From {
                     //Name = "kevin",
-                    Child = new From2 { Name = "bao" },
+                    Child = new From { Name = "bao" },
                     //Age = 123,
                     //Height = 180,
                     //Fields1 = new int[] { 1, 2, 3 }
                 };
-                var to = mapper.From(from).To<To>(options => options.Ignore("Child.Name"));
+                var to = mapper.From(from, options=> options.Map("Child.Name", "Child2.Name")).To<To>(options => options.Ignore("Child.Name"));
             }
         }
     }
 
     public class From {
-        //public string Name { get; set; }
-        public From2 Child { get; set; }
+        public string Name { get; set; }
+        public From Child { get; set; }
         //public From2 Child2 { get; set; }
         //public Int32 Age { get; set; }
         //public Int32? Height { get; set; }
@@ -41,9 +41,9 @@ namespace Rey.Mapping {
     }
 
     public class To {
-        //public string Name { get; set; }
-        public To2 Child { get; set; }
-        //public To2 Child2 { get; set; }
+        public string Name { get; set; }
+        public To Child { get; set; }
+        public To Child2 { get; set; }
         //public Int64 Age { get; set; }
         //public Int64? Height { get; set; }
         //public Int64? Width { get; set; }

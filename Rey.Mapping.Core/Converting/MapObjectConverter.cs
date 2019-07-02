@@ -39,8 +39,9 @@ namespace Rey.Mapping {
             var props = fromType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
             var tokens = new Dictionary<string, IMapToken>();
             foreach (var prop in props) {
-                var name = prop.Name;
-                var path = context.Path.Append(name);
+                var path = context.Path.Append(prop.Name);
+                path = options.MapTo(path);
+                var name = path.Pop();
 
                 //! ignore member by options;
                 if (options.IsIgnore(path))
