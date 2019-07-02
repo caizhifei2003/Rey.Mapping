@@ -7,37 +7,39 @@ namespace Rey.Mapping {
         public static readonly string DELIMITER = ".";
         public static readonly MapPath Root = new MapPath();
 
-        private readonly Stack<string> _segments;
+        private readonly List<string> _segments;
+
+        public bool IsEmpty => this._segments.Count == 0;
 
         public MapPath(IEnumerable<string> segments = null) {
-            if (segments != null) {
-                this._segments = new Stack<string>(segments);
-            } else {
-                this._segments = new Stack<string>();
-            }
-        }
-
-        public MapPath Push(string segment) {
-            if (segment == null)
-                throw new ArgumentNullException(nameof(segment));
-
-            this._segments.Push(segment);
-            return this;
-        }
-
-        public string Pop() {
-            return this._segments.Pop();
+            this._segments = segments?.ToList() ?? new List<string>();
         }
 
         public MapPath Append(string segment) {
             if (segment == null)
                 throw new ArgumentNullException(nameof(segment));
 
-            return new MapPath(this._segments).Push(segment);
+            var clone = this._segments.ToList();
+            clone.Add(segment);
+            return new MapPath(clone);
+        }
+
+        public MapPath Parent() {
+            if (this.IsEmpty)
+                return null;
+
+            return new MapPath(this._segments.Take(this._segments.Count - 1));
+        }
+
+        public string LastSegment() {
+            if (this.IsEmpty)
+                return null;
+
+            return this._segments.Last();
         }
 
         public override string ToString() {
-            return string.Join('.', this._segments.Reverse().Select(x => x));
+            return string.Join('.', this._segments.Select(x => x));
         }
 
         public bool Equals(MapPath other) {
@@ -70,6 +72,14 @@ namespace Rey.Mapping {
 
         public static implicit operator MapPath(string value) {
             return Parse(value);
+        }
+
+        public static bool operator ==(MapPath path1, MapPath path2) {
+            return path1.Equals(path2);
+        }
+
+        public static bool operator !=(MapPath path1, MapPath path2) {
+            return !(path1 == path2);
         }
     }
 }
