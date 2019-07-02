@@ -58,7 +58,6 @@ namespace Rey.Mapping {
                 return;
             }
 
-
             if (fromType.Equals<Int32>()) {
                 context.Table.AddToken(path, new MapInt32Token((Int32)fromValue));
                 return;

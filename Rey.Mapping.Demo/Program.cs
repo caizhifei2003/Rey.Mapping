@@ -17,10 +17,10 @@ namespace Rey.Mapping {
             {
                 var from = new From {
                     //Name = "kevin",
-                    Child = new From { Name = "bao" },
+                    //Child = new From { Name = "bao" },
                     //Age = 123,
                     //Height = 180,
-                    Fields1 = new int[] { 1, 2, 3 }
+                    Fields1 = new int?[] { 1, 2, 3, null }
                 };
                 var to = mapper.From(from, options => options.Ignore("Child.Name")).To<To>();
             }
@@ -34,7 +34,7 @@ namespace Rey.Mapping {
         //public Int32 Age { get; set; }
         //public Int32? Height { get; set; }
         //public Int32 Width { get; set; }
-        public IEnumerable<int> Fields1 { get; set; }
+        public IEnumerable<int?> Fields1 { get; set; }
     }
 
     public class From2 {
