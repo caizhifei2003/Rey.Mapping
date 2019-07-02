@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
 
 namespace Rey.Mapping {
     class Program {
@@ -17,24 +16,24 @@ namespace Rey.Mapping {
             {
                 var from = new From {
                     //Name = "kevin",
-                    //Child = new From2 { Name = "bao" },
+                    Child = new From2 { Name = "bao" },
                     //Age = 123,
                     //Height = 180,
-                    Fields1 = new int[] { 1, 2, 3 }
+                    //Fields1 = new int[] { 1, 2, 3 }
                 };
-                var to = mapper.From(from).To<To>();
+                var to = mapper.From(from, options => options.Ignore("Child")).To<To>();
             }
         }
     }
 
     public class From {
         //public string Name { get; set; }
-        //public From2 Child { get; set; }
+        public From2 Child { get; set; }
         //public From2 Child2 { get; set; }
         //public Int32 Age { get; set; }
         //public Int32? Height { get; set; }
         //public Int32 Width { get; set; }
-        public IEnumerable<int> Fields1 { get; set; }
+        //public IEnumerable<int> Fields1 { get; set; }
     }
 
     public class From2 {
@@ -43,12 +42,12 @@ namespace Rey.Mapping {
 
     public class To {
         //public string Name { get; set; }
-        //public To2 Child { get; set; }
+        public To2 Child { get; set; }
         //public To2 Child2 { get; set; }
         //public Int64 Age { get; set; }
         //public Int64? Height { get; set; }
         //public Int64? Width { get; set; }
-        public List<Int64> Fields1 { get; set; }
+        //public List<Int64> Fields1 { get; set; }
     }
 
     public class To2 {

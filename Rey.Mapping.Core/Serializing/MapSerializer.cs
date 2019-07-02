@@ -11,7 +11,7 @@ namespace Rey.Mapping {
             this._converters = converters;
         }
 
-        public IMapToken Serialize(object fromValue, Type fromType, IMapSerializeOptions options) {
+        public IMapToken Serialize(object fromValue, Type fromType, IMapSerializeOptions options, IMapSerializeContext context = null) {
             if (fromType == null)
                 throw new ArgumentNullException(nameof(fromType));
 
@@ -22,7 +22,7 @@ namespace Rey.Mapping {
             if (converter == null)
                 throw new InvalidOperationException($"无法找到转换器。[value: {fromValue}][type: {fromType}]");
 
-            var context = new MapSerializeContext(this);
+            context = context ?? new MapSerializeContext(this);
             return converter.Serialize(fromValue, fromType, options, context);
         }
     }

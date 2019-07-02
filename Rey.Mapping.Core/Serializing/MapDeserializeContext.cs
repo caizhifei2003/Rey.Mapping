@@ -10,7 +10,7 @@ namespace Rey.Mapping {
         }
 
         public object Deserialize(IMapToken token, Type toType, IMapDeserializeOptions options) {
-            return this._deserializer.Deserialize(token, toType, options);
+            return this._deserializer.Deserialize(token, toType, options, this);
         }
     }
 }

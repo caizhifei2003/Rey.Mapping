@@ -11,12 +11,12 @@ namespace Rey.Mapping {
             this._converters = converters;
         }
 
-        public object Deserialize(IMapToken token, Type toType, IMapDeserializeOptions options) {
+        public object Deserialize(IMapToken token, Type toType, IMapDeserializeOptions options, IMapDeserializeContext context = null) {
             var converter = this._converters.FirstOrDefault(x => x.CanDeserialize(token, toType, options));
             if (converter == null)
                 throw new InvalidOperationException($"无法找到转换器。[node: {token}][type: {toType}]");
 
-            var context = new MapDeserializeContext(this);
+            context = context ?? new MapDeserializeContext(this);
             return converter.Deserialize(token, toType, options, context);
         }
     }

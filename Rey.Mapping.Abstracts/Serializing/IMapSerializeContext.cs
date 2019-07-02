@@ -3,6 +3,7 @@ using System;
 
 namespace Rey.Mapping {
     public interface IMapSerializeContext {
-        IMapToken Serialize(object fromValue, Type fromType, IMapSerializeOptions options);
+        MapPath Path { get; }
+        IMapToken Serialize(object fromValue, Type fromType, IMapSerializeOptions options, string segment = null);
     }
 }

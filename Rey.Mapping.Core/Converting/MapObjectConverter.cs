@@ -32,9 +32,16 @@ namespace Rey.Mapping {
             var props = fromType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
             var tokens = new Dictionary<string, IMapToken>();
             foreach (var prop in props) {
+                var name = prop.Name;
+                var path = context.Path.Append(name);
+
+                //! ignore member by options;
+                if (options.IsIgnore(path))
+                    continue;
+
                 var value = prop.GetValue(fromValue);
-                var token = context.Serialize(value, prop.PropertyType, options);
-                tokens.Add(prop.Name, token);
+                var token = context.Serialize(value, prop.PropertyType, options, name);
+                tokens.Add(name, token);
             }
             return new MapObjectToken(tokens);
         }
