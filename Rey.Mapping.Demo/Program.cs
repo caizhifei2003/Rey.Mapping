@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Rey.Mapping.Configuration;
 using System;
 using System.Collections.Generic;
 
@@ -35,7 +34,7 @@ namespace Rey.Mapping {
         //public Int32 Age { get; set; }
         //public Int32? Height { get; set; }
         //public Int32 Width { get; set; }
-        public int[] Fields1 { get; set; }
+        public IEnumerable<int> Fields1 { get; set; }
     }
 
     public class From2 {
@@ -49,7 +48,7 @@ namespace Rey.Mapping {
         //public Int64 Age { get; set; }
         //public Int64? Height { get; set; }
         //public Int64? Width { get; set; }
-        public Int64[] Fields1 { get; set; }
+        public List<Int64> Fields1 { get; set; }
     }
 
     public class To2 {
