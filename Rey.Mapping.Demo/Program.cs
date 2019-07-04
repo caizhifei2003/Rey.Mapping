@@ -16,6 +16,7 @@ namespace Rey.Mapping {
             var from = new From {
                 Name = "kevin",
                 Age = 123,
+                Parent = new From { Parent = new From { Name = "parent" } }
                 //Child = new From { Name = "bao" },
                 //Age = 123,
                 //Height = 180,
@@ -26,7 +27,8 @@ namespace Rey.Mapping {
 
             var to = mapper
                 .From(from, options => options
-                    .Map("Name", "Child.Child.Name", "Child2.Name")
+                    .Ignore(x => x.Parent.Parent.Name)
+                    .Map(x => x.Name, "Child.Child.Name", "Child2.Name")
                 )
                 .To<To>();
         }
@@ -35,11 +37,13 @@ namespace Rey.Mapping {
     public class From {
         public string Name { get; set; }
         public int Age { get; set; }
+        public From Parent { get; set; }
     }
 
     public class To {
         public string Name { get; set; }
         public int Age { get; set; }
+        public To Parent { get; set; }
         public To Child { get; set; }
         public To Child2 { get; set; }
     }

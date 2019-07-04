@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace Rey.Mapping {
     public class MapSerializeOptions : IMapSerializeOptions {
@@ -51,6 +52,31 @@ namespace Rey.Mapping {
             }
 
             return new List<MapPath>() { new MapPath(path) };
+        }
+    }
+
+    public class MapSerializeOptions<TFrom> : MapSerializeOptions, IMapSerializeOptions<TFrom> {
+        public IMapSerializeOptions<TFrom> Ignore<TField>(Expression<Func<TFrom, TField>> field) {
+            this.Ignore(MapPath.Parse(field));
+            return this;
+        }
+
+        public IMapSerializeOptions<TFrom> Map<TField>(Expression<Func<TFrom, TField>> field, IEnumerable<MapPath> to) {
+            if (field == null)
+                throw new ArgumentNullException(nameof(field));
+
+            if (to == null)
+                throw new ArgumentNullException(nameof(to));
+
+            this.Map(MapPath.Parse(field), to);
+            return this;
+        }
+
+        public IMapSerializeOptions<TFrom> Map<TField>(Expression<Func<TFrom, TField>> field, params MapPath[] to) {
+            if (field == null)
+                throw new ArgumentNullException(nameof(field));
+
+            return this.Map(field, to.AsEnumerable());
         }
     }
 }

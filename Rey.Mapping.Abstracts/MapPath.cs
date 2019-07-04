@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace Rey.Mapping {
     public class MapPath {
@@ -15,7 +16,7 @@ namespace Rey.Mapping {
             this._segments = segments?.ToList() ?? new List<string>();
         }
 
-        public MapPath(MapPath other) 
+        public MapPath(MapPath other)
             : this(other._segments) {
         }
 
@@ -72,6 +73,16 @@ namespace Rey.Mapping {
 
             var segments = value.Split(DELIMITER);
             return new MapPath(segments);
+        }
+
+        public static MapPath Parse<TModel, TField>(Expression<Func<TModel, TField>> field) {
+            var stack = new Stack<string>();
+            for (var node = field.Body as MemberExpression;
+                node != null && node.NodeType == ExpressionType.MemberAccess;
+                node = (node as MemberExpression).Expression as MemberExpression) {
+                stack.Push(node.Member.Name);
+            }
+            return new MapPath(stack);
         }
 
         public static implicit operator MapPath(string value) {
