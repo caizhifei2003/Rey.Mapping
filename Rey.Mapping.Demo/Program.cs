@@ -9,6 +9,8 @@ using System.Linq.Expressions;
 namespace Rey.Mapping {
     class Program {
         static void Main(string[] args) {
+            var builder = new MapperBuilder();
+
             var mapper = new ServiceCollection().AddMapping().BuildServiceProvider().GetService<IMapper>();
 
             var from = new From {
