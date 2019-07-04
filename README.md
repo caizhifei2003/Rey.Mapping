@@ -15,7 +15,6 @@ public class PersonTo {
     public PersonTo[] Children { get; set; }
 }
 
-
 static void Main(string[] args) {
   var mapper = new MapperBuilder().Build();
   var from = new PersonFrom() {
