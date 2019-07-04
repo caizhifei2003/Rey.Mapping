@@ -39,3 +39,12 @@ var to = this.Mapper.From(from, opts => opts.Ignore(x => x.Name)).To<PersonTo>()
 ``` C#
 var to = this.Mapper.From(from).To<PersonTo>(opts => opts.Ignore(x => x.Name));
 ```
+## 字段映射
+### 从源对象上映射
+``` C#
+var to = this.Mapper.From(from, opts => opts.Map(x => x.Name, "Parent.Name")).To<PersonTo>();
+```
+### 从目标对象上映射
+``` C#
+var to = this.Mapper.From(from).To<PersonTo>(opts => opts.Map(x => x.Name, x => x.Parent.Name));
+```
