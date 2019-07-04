@@ -2,6 +2,7 @@
 灵活的dotnet core映射库，主要为了解决AutoMapper在使用过程中不够灵活的问题。
 
 # 使用
+## 基本
 ``` C#
 public class PersonFrom {
     public string Name { get; set; }
@@ -28,4 +29,13 @@ static void Main(string[] args) {
 
   var to = mapper.From(from).To<PersonTo>();
 }
+```
+## 忽略字段
+### 从源对象上忽略字段
+``` C#
+var to = this.Mapper.From(from, opts => opts.Ignore(x => x.Name)).To<PersonTo>();
+```
+### 从目标对象上忽略字段
+``` C#
+var to = this.Mapper.From(from).To<PersonTo>(opts => opts.Ignore(x => x.Name));
 ```
