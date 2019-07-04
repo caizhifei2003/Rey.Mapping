@@ -19,7 +19,7 @@ namespace Rey.Mapping {
 
         IMapSerializeOptions Map(MapPath from, IEnumerable<MapPath> to);
         IMapSerializeOptions Map(MapPath from, params MapPath[] to);
-        IEnumerable<MapPath> GetMapPaths(MapPath path);
+        IEnumerable<KeyValuePair<MapPath, IEnumerable<MapPath>>> GetMaps();
     }
 
     public interface IMapSerializeOptions<TFrom> : IMapSerializeOptions {

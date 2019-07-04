@@ -50,15 +50,8 @@ namespace Rey.Mapping {
             return this.Map(from, to.AsEnumerable());
         }
 
-        public IEnumerable<MapPath> GetMapPaths(MapPath path) {
-            if (path == null)
-                throw new ArgumentNullException(nameof(path));
-
-            if (this._maps.TryGetValue(path, out var paths)) {
-                return paths;
-            }
-
-            return new List<MapPath>() { new MapPath(path) };
+        public IEnumerable<KeyValuePair<MapPath, IEnumerable<MapPath>>> GetMaps() {
+            return this._maps.Select(x => new KeyValuePair<MapPath, IEnumerable<MapPath>>(x.Key, x.Value));
         }
     }
 
