@@ -29,28 +29,28 @@ namespace Rey.Mapping {
                 return Enum.GetName(this.Type, this.Value);
 
             if (type.Equals<SByte>())
-                return (SByte)this.Value;
+                return Convert.ChangeType(this.Value, typeof(SByte));
 
             if (type.Equals<Int16>())
-                return (Int16)this.Value;
+                return Convert.ChangeType(this.Value, typeof(Int16));
 
             if (type.Equals<Int32>())
-                return (Int32)this.Value;
+                return Convert.ChangeType(this.Value, typeof(Int32));
 
             if (type.Equals<Int64>())
-                return (Int64)this.Value;
+                return Convert.ChangeType(this.Value, typeof(Int64));
 
             if (type.Equals<Byte>())
-                return (Byte)this.Value;
+                return Convert.ChangeType(this.Value, typeof(Byte));
 
             if (type.Equals<UInt16>())
-                return (UInt16)this.Value;
+                return Convert.ChangeType(this.Value, typeof(UInt16));
 
             if (type.Equals<UInt32>())
-                return (UInt32)this.Value;
+                return Convert.ChangeType(this.Value, typeof(UInt32));
 
             if (type.Equals<UInt64>())
-                return (UInt64)this.Value;
+                return Convert.ChangeType(this.Value, typeof(UInt64));
 
             throw new NotImplementedException();
         }
