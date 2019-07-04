@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -7,6 +8,9 @@ namespace Rey.Mapping {
     public class MapDeserializeOptions : IMapDeserializeOptions {
         private readonly List<MapPath> _ignores = new List<MapPath>();
         private readonly Dictionary<MapPath, List<MapPath>> _maps = new Dictionary<MapPath, List<MapPath>>();
+
+        public IDictionary<string, object> Data { get; } = new Dictionary<string, object>();
+        public dynamic Pack { get; } = new ExpandoObject();
 
         public IMapDeserializeOptions Ignore(MapPath path) {
             if (path == null)

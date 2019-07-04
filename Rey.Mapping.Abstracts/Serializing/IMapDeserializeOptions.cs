@@ -4,6 +4,16 @@ using System.Linq.Expressions;
 
 namespace Rey.Mapping {
     public interface IMapDeserializeOptions {
+        /// <summary>
+        /// 自定义数据
+        /// </summary>
+        IDictionary<string, object> Data { get; }
+
+        /// <summary>
+        /// 自定义数据
+        /// </summary>
+        dynamic Pack { get; }
+
         IMapDeserializeOptions Ignore(MapPath path);
         bool IsIgnore(MapPath path);
 
