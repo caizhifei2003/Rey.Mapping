@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace Rey.Mapping {
-    public class MapStringToken : MapValueToken<string> {
+    public class MapDateTimeToken : MapValueToken<DateTime> {
         public static readonly IEnumerable<Type> COMP_TYPES = new List<Type> {
-            typeof(string), typeof(DateTime), typeof(TimeSpan)
+            typeof(DateTime), typeof(string)
         };
 
-        public MapStringToken(string value)
-            : base(value, typeof(string)) {
+        public MapDateTimeToken(DateTime value)
+            : base(value, typeof(DateTime)) {
         }
 
         public override bool Compatible(Type type) {
@@ -17,14 +17,11 @@ namespace Rey.Mapping {
         }
 
         public override object GetValue(Type type) {
-            if (type.Equals<string>())
+            if (type.Equals<DateTime>())
                 return this.Value;
 
-            if (type.Equals<DateTime>())
-                return DateTime.Parse(this.Value);
-
-            if (type.Equals<TimeSpan>())
-                return TimeSpan.Parse(this.Value);
+            if (type.Equals<string>())
+                return this.Value.ToString();
 
             throw new NotImplementedException();
         }

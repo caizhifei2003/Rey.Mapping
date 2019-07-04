@@ -1,18 +1,18 @@
 ﻿using System;
 
 namespace Rey.Mapping {
-    public class MapStringConverter : IMapConverter {
+    public class MapDateTimeConverter : IMapConverter {
         public bool CanSerialize(MapPath path, object fromValue, Type fromType, IMapSerializeOptions options, IMapSerializeContext context) {
-            return fromType.Equals<string>();
+            return fromType.Equals<DateTime>();
         }
 
         public void Serialize(MapPath path, object fromValue, Type fromType, IMapSerializeOptions options, IMapSerializeContext context) {
-            context.Table.AddToken(path, new MapStringToken((string)fromValue));
+            context.Table.AddToken(path, new MapDateTimeToken((DateTime)fromValue));
         }
 
         public bool CanDeserialize(MapPath path, Type toType, IMapDeserializeOptions options, IMapDeserializeContext context) {
             var token = context.Table.GetToken(path);
-            if (!(token is MapStringToken))
+            if (!(token is MapDateTimeToken))
                 return false;
 
             return token.Compatible(toType);

@@ -1,18 +1,18 @@
 ﻿using System;
 
 namespace Rey.Mapping {
-    public class MapStringConverter : IMapConverter {
+    public class MapEnumConverter : IMapConverter {
         public bool CanSerialize(MapPath path, object fromValue, Type fromType, IMapSerializeOptions options, IMapSerializeContext context) {
-            return fromType.Equals<string>();
+            return fromType.IsEnum;
         }
 
         public void Serialize(MapPath path, object fromValue, Type fromType, IMapSerializeOptions options, IMapSerializeContext context) {
-            context.Table.AddToken(path, new MapStringToken((string)fromValue));
+            context.Table.AddToken(path, new MapEnumToken(fromValue, fromType));
         }
 
         public bool CanDeserialize(MapPath path, Type toType, IMapDeserializeOptions options, IMapDeserializeContext context) {
             var token = context.Table.GetToken(path);
-            if (!(token is MapStringToken))
+            if (!(token is MapEnumToken))
                 return false;
 
             return token.Compatible(toType);

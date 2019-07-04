@@ -5,6 +5,12 @@ using System.Reflection;
 namespace Rey.Mapping {
     public class MapObjectConverter : IMapConverter {
         public bool CanSerialize(MapPath path, object fromValue, Type fromType, IMapSerializeOptions options, IMapSerializeContext context) {
+            if (fromType.Namespace.StartsWith("System"))
+                return false;
+
+            if (fromType.IsEnum)
+                return false;
+
             return true;
         }
 
@@ -26,6 +32,10 @@ namespace Rey.Mapping {
         }
 
         public bool CanDeserialize(MapPath path, Type toType, IMapDeserializeOptions options, IMapDeserializeContext context) {
+            var token = context.Table.GetToken(path);
+            if (!(token is MapObjectToken))
+                return false;
+
             return true;
         }
 
