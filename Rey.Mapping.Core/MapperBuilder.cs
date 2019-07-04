@@ -7,6 +7,7 @@ namespace Rey.Mapping {
         private readonly IMapperOptions _options;
         private readonly IEnumerable<IMapSerializeConverter> DEFAULTS_SERIALIZE_CONVERTERS = new List<IMapSerializeConverter>() {
             new MapNullConverter(),
+            new MapCharConverter(),
             new MapStringConverter(),
             new MapNumberConverter(),
             new MapDateTimeConverter(),
@@ -19,6 +20,7 @@ namespace Rey.Mapping {
 
         private readonly IEnumerable<IMapDeserializeConverter> DEFAULTS_DESERIALIZE_CONVERTERS = new List<IMapDeserializeConverter>() {
             new MapNullConverter(),
+            new MapCharConverter(),
             new MapStringConverter(),
             new MapNumberConverter(),
             new MapDateTimeConverter(),

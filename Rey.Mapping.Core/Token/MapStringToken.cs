@@ -5,7 +5,7 @@ using System.Linq;
 namespace Rey.Mapping {
     public class MapStringToken : MapValueToken<string> {
         public static readonly IEnumerable<Type> COMP_TYPES = new List<Type> {
-            typeof(string), typeof(DateTime), typeof(TimeSpan), typeof(Boolean),
+            typeof(string), typeof(DateTime), typeof(TimeSpan), typeof(Boolean), typeof(Char),
             typeof(SByte), typeof(Int16), typeof(Int32), typeof(Int64),
             typeof(Byte), typeof(UInt16), typeof(UInt32), typeof(UInt64),
             typeof(Single), typeof(Double), typeof(Decimal),
@@ -37,6 +37,9 @@ namespace Rey.Mapping {
 
             if (type.Equals<Boolean>())
                 return Boolean.Parse(this.Value);
+
+            if (type.Equals<Char>())
+                return Char.Parse(this.Value);
 
             if (type.Equals<SByte>())
                 return SByte.Parse(this.Value);

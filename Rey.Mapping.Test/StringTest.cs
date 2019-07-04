@@ -26,6 +26,9 @@ namespace Rey.Mapping.Test {
             Assert.Equal(Gender.Male, this.Mapper.From("Male").To<Gender>());
             Assert.True(this.Mapper.From("True").To<bool>());
             Assert.True(this.Mapper.From("true").To<bool>());
+            Assert.False(this.Mapper.From("False").To<bool>());
+            Assert.False(this.Mapper.From("false").To<bool>());
+            Assert.Equal('a', this.Mapper.From("a").To<char>());
         }
     }
 }
