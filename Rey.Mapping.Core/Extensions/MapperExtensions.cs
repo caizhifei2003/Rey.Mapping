@@ -12,7 +12,7 @@ namespace Rey.Mapping {
             return mapper.From(fromValue, typeof(T), options);
         }
 
-        public static IMapMedia From<T>(this IMapper mapper, T fromValue, Action<MapSerializeOptions> configure = null) {
+        public static IMapMedia From<T>(this IMapper mapper, T fromValue, Action<IMapSerializeOptions> configure = null) {
             return mapper.From(fromValue, typeof(T), configure);
         }
     }

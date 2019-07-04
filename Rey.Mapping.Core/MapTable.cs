@@ -15,6 +15,13 @@ namespace Rey.Mapping {
             return this.TryGetValue(path, out var token) ? token : null;
         }
 
+        public bool ContainsPath(MapPath path) {
+            if (path == null)
+                throw new ArgumentNullException(nameof(path));
+
+            return this.ContainsKey(path);
+        }
+
         public IEnumerable<KeyValuePair<MapPath, IMapToken>> GetChildren(MapPath path) {
             if (path == null)
                 throw new ArgumentNullException(nameof(path));

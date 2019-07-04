@@ -12,7 +12,7 @@ namespace Rey.Mapping {
             return (T)wrapper.To(typeof(T), options);
         }
 
-        public static T To<T>(this IMapMedia wrapper, Action<MapDeserializeOptions> configure = null) {
+        public static T To<T>(this IMapMedia wrapper, Action<IMapDeserializeOptions> configure = null) {
             return (T)wrapper.To(typeof(T), configure);
         }
     }

@@ -1,9 +1,8 @@
 ﻿using System;
 
 namespace Rey.Mapping {
-    public class MapObjectToken : MapValueToken {
-        public MapObjectToken(Type type)
-            : base(type) {
+    public class MapObjectToken : MapToken {
+        public MapObjectToken() {
         }
 
         public override bool Compatible(Type type) {

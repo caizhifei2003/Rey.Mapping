@@ -13,6 +13,10 @@ namespace Rey.Mapping {
         }
 
         public object Deserialize(MapPath path, Type toType, IMapDeserializeOptions options) {
+            //! ignore path;
+            if (options.IsIgnore(path))
+                return null;
+
             return this._deserializer.Deserialize(path, toType, options, this);
         }
     }

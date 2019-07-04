@@ -9,17 +9,13 @@ namespace Rey.Mapping {
         }
 
         public void Serialize(MapPath path, object fromValue, Type fromType, IMapSerializeOptions options, IMapSerializeContext context) {
-            context.Table.AddToken(path, new MapObjectToken(fromType));
+            context.Table.AddToken(path, new MapObjectToken());
             var props = fromType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
             foreach (var prop in props) {
                 var name = prop.Name;
                 var type = prop.PropertyType;
                 var subPath = path.Append(name);
-
-                //! ignore member by options;
-                if (options.IsIgnore(subPath))
-                    continue;
 
                 var value = prop.GetValue(fromValue);
                 if (value == null)
@@ -37,10 +33,6 @@ namespace Rey.Mapping {
             var obj = Activator.CreateInstance(toType);
             var children = context.Table.GetChildren(path).ToList();
             foreach (var child in children) {
-                //! ignore member by options;
-                if (options.IsIgnore(child.Key))
-                    continue;
-
                 var name = child.Key.LastSegment();
                 var prop = toType.GetProperty(name);
                 var type = prop.PropertyType;

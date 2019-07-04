@@ -15,33 +15,32 @@ namespace Rey.Mapping {
 
             var from = new From {
                 Name = "kevin",
+                Age = 123,
                 //Child = new From { Name = "bao" },
                 //Age = 123,
                 //Height = 180,
                 //Fields1 = new int?[] { 1, 2, 3, null }
             };
 
-            var to = mapper.From(from, options => options.Ignore("Child.Name")).To<To>();
+
+
+            var to = mapper
+                .From(from, options => options
+                    .Map("Name", "Child.Child.Name", "Child2.Name")
+                )
+                .To<To>();
         }
     }
 
     public class From {
         public string Name { get; set; }
-        //public From Child { get; set; }
-        //public From2 Child2 { get; set; }
-        ////public Int32 Age { get; set; }
-        ////public Int32? Height { get; set; }
-        ////public Int32 Width { get; set; }
-        //public IEnumerable<int?> Fields1 { get; set; }
+        public int Age { get; set; }
     }
 
     public class To {
         public string Name { get; set; }
-        //public To Child { get; set; }
-        //public To Child2 { get; set; }
-        ////public Int64 Age { get; set; }
-        ////public Int64? Height { get; set; }
-        ////public Int64? Width { get; set; }
-        //public Int64?[] Fields1 { get; set; }
+        public int Age { get; set; }
+        public To Child { get; set; }
+        public To Child2 { get; set; }
     }
 }

@@ -13,7 +13,24 @@ namespace Rey.Mapping {
         }
 
         public void Serialize(MapPath path, object fromValue, Type fromType, IMapSerializeOptions options) {
-            this._serializer.Serialize(path, fromValue, fromType, options, this);
+            //! ignore path
+            if (options.IsIgnore(path))
+                return;
+
+            var mapPaths = options.GetMapPaths(path);
+            foreach (var mapPath in mapPaths) {
+                this.EnsureParentExist(mapPath.Parent());
+
+                this._serializer.Serialize(mapPath, fromValue, fromType, options, this);
+            }
+        }
+
+        private void EnsureParentExist(MapPath path) {
+            if (this.Table.ContainsPath(path))
+                return;
+
+            this.EnsureParentExist(path.Parent());
+            this.Table.AddToken(path, new MapObjectToken());
         }
     }
 }

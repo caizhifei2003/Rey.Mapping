@@ -15,6 +15,10 @@ namespace Rey.Mapping {
             this._segments = segments?.ToList() ?? new List<string>();
         }
 
+        public MapPath(MapPath other) 
+            : this(other._segments) {
+        }
+
         public MapPath Append(string segment) {
             if (segment == null)
                 throw new ArgumentNullException(nameof(segment));
