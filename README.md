@@ -1,5 +1,5 @@
 # Rey.Mapping
-灵活的dotnet core对象映射库，主要为了解决AutoMapper在使用过程中不够灵活的问题。
+灵活的dotnet core映射库，主要为了解决AutoMapper在使用过程中不够灵活的问题。
 
 # 使用
 ``` C#
