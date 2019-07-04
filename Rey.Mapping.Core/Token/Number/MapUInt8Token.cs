@@ -10,7 +10,8 @@ namespace Rey.Mapping {
             return type.Equals<Byte>() || type.Equals<Byte?>()
                 || type.Equals<UInt16>() || type.Equals<UInt16?>()
                 || type.Equals<UInt32>() || type.Equals<UInt32?>()
-                || type.Equals<UInt64>() || type.Equals<UInt64?>();
+                || type.Equals<UInt64>() || type.Equals<UInt64?>()
+                || type.Equals<string>();
         }
 
         public override object GetValue(Type type) {
@@ -25,6 +26,9 @@ namespace Rey.Mapping {
 
             if (type.Equals<UInt64>() || type.Equals<UInt64?>())
                 return (UInt64)this.Value;
+
+            if (type.Equals<string>())
+                return this.Value.ToString();
 
             throw new NotImplementedException();
         }

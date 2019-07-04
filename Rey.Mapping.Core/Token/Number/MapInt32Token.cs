@@ -8,7 +8,8 @@ namespace Rey.Mapping {
 
         public override bool Compatible(Type type) {
             return type.Equals<Int32>() || type.Equals<Int32?>()
-                || type.Equals<Int64>() || type.Equals<Int64?>();
+                || type.Equals<Int64>() || type.Equals<Int64?>()
+                || type.Equals<string>();
         }
 
         public override object GetValue(Type type) {
@@ -17,6 +18,9 @@ namespace Rey.Mapping {
 
             if (type.Equals<Int64>() || type.Equals<Int64?>())
                 return (Int64)this.Value;
+
+            if (type.Equals<string>())
+                return this.Value.ToString();
 
             throw new NotImplementedException();
         }
