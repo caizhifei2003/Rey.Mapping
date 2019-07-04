@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 
 namespace Rey.Mapping {
-    public class MapPath {
+    public class MapPath : IComparable<MapPath> {
         public static readonly string DELIMITER = ".";
         public static readonly MapPath Root = new MapPath();
 
@@ -67,6 +67,10 @@ namespace Rey.Mapping {
             return this.GetHashCode().Equals(obj.GetHashCode());
         }
 
+        public int CompareTo(MapPath other) {
+            return this.ToString().CompareTo(other.ToString());
+        }
+
         public static MapPath Parse(string value) {
             if (value == null)
                 throw new ArgumentNullException(nameof(value));
@@ -90,6 +94,12 @@ namespace Rey.Mapping {
         }
 
         public static bool operator ==(MapPath path1, MapPath path2) {
+            if (object.Equals(path1, null) && object.Equals(path2, null))
+                return true;
+
+            if (object.Equals(path1, null) || object.Equals(path2, null))
+                return false;
+
             return path1.Equals(path2);
         }
 

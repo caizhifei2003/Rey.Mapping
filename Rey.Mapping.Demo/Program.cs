@@ -1,9 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 
 namespace Rey.Mapping {
@@ -23,14 +18,14 @@ namespace Rey.Mapping {
                 //Fields1 = new int?[] { 1, 2, 3, null }
             };
 
-
-
             var to = mapper
-                .From(from, options => options
-                    .Ignore(x => x.Parent.Parent.Name)
-                    .Map(x => x.Name, "Child.Child.Name", "Child2.Name")
-                )
-                .To<To>();
+                .From(from, options => {
+                    //options.Ignore(x => x.Parent.Parent.Name);
+                    //options.Map(x => x.Name, "Child.Child.Name", "Child2.Name");
+                })
+                .To<To>(options => {
+                    options.Map(x => x.Name, x => x.Child.Child.Name, x => x.Child2.Name);
+                });
         }
     }
 

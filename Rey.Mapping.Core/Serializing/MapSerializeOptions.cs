@@ -27,6 +27,9 @@ namespace Rey.Mapping {
             if (from == null)
                 throw new ArgumentNullException(nameof(from));
 
+            if (to == null)
+                throw new ArgumentNullException(nameof(to));
+
             if (this._maps.ContainsKey(from)) {
                 this._maps[from].AddRange(to);
             } else {
@@ -56,27 +59,27 @@ namespace Rey.Mapping {
     }
 
     public class MapSerializeOptions<TFrom> : MapSerializeOptions, IMapSerializeOptions<TFrom> {
-        public IMapSerializeOptions<TFrom> Ignore<TField>(Expression<Func<TFrom, TField>> field) {
-            this.Ignore(MapPath.Parse(field));
+        public IMapSerializeOptions<TFrom> Ignore<TField>(Expression<Func<TFrom, TField>> from) {
+            this.Ignore(MapPath.Parse(from));
             return this;
         }
 
-        public IMapSerializeOptions<TFrom> Map<TField>(Expression<Func<TFrom, TField>> field, IEnumerable<MapPath> to) {
-            if (field == null)
-                throw new ArgumentNullException(nameof(field));
+        public IMapSerializeOptions<TFrom> Map<TField>(Expression<Func<TFrom, TField>> from, IEnumerable<MapPath> to) {
+            if (from == null)
+                throw new ArgumentNullException(nameof(from));
 
             if (to == null)
                 throw new ArgumentNullException(nameof(to));
 
-            this.Map(MapPath.Parse(field), to);
+            this.Map(MapPath.Parse(from), to);
             return this;
         }
 
-        public IMapSerializeOptions<TFrom> Map<TField>(Expression<Func<TFrom, TField>> field, params MapPath[] to) {
-            if (field == null)
-                throw new ArgumentNullException(nameof(field));
+        public IMapSerializeOptions<TFrom> Map<TField>(Expression<Func<TFrom, TField>> from, params MapPath[] to) {
+            if (from == null)
+                throw new ArgumentNullException(nameof(from));
 
-            return this.Map(field, to.AsEnumerable());
+            return this.Map(from, to.AsEnumerable());
         }
     }
 }

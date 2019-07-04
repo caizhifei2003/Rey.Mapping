@@ -1,8 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Text;
 using Exp = System.Linq.Expressions.Expression;
 
 namespace Rey.Mapping {
