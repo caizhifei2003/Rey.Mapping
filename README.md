@@ -33,18 +33,18 @@ static void Main(string[] args) {
 ## 忽略字段
 ### 从源对象上忽略字段
 ``` C#
-var to = this.Mapper.From(from, opts => opts.Ignore(x => x.Name)).To<PersonTo>();
+var to = mapper.From(from, opts => opts.Ignore(x => x.Name)).To<PersonTo>();
 ```
 ### 从目标对象上忽略字段
 ``` C#
-var to = this.Mapper.From(from).To<PersonTo>(opts => opts.Ignore(x => x.Name));
+var to = mapper.From(from).To<PersonTo>(opts => opts.Ignore(x => x.Name));
 ```
 ## 字段映射
 ### 从源对象上映射
 ``` C#
-var to = this.Mapper.From(from, opts => opts.Map(x => x.Name, "Parent.Name")).To<PersonTo>();
+var to = mapper.From(from, opts => opts.Map(x => x.Name, "Parent.Name")).To<PersonTo>();
 ```
 ### 从目标对象上映射
 ``` C#
-var to = this.Mapper.From(from).To<PersonTo>(opts => opts.Map(x => x.Name, x => x.Parent.Name));
+var to = mapper.From(from).To<PersonTo>(opts => opts.Map(x => x.Name, x => x.Parent.Name));
 ```
