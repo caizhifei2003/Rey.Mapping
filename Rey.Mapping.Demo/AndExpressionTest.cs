@@ -13,7 +13,7 @@ namespace Rey.Mapping {
 
         public void Run() {
             var arr = new[] { 1, 2, 3, 4, 5 };
-            var mapper = new ServiceCollection().AddMapping().BuildServiceProvider().GetService<IMapper>();
+            var mapper = new MapperBuilder().Build();
 
             var begin = DateTime.Now;
             for (var i = 0; i < this.Times; i++) {

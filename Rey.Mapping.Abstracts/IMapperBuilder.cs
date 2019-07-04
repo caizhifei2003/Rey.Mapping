@@ -7,5 +7,7 @@ namespace Rey.Mapping {
 
         IMapperBuilder AddDeserializeConverter(Func<IMapDeserializeConverter> converter, int order = 0);
         IMapperBuilder AddDeserializeConverter(IMapDeserializeConverter converter, int order = 0);
+
+        IMapper Build();
     }
 }

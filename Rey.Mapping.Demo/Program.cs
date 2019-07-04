@@ -6,7 +6,11 @@ namespace Rey.Mapping {
         static void Main(string[] args) {
             var builder = new MapperBuilder();
 
-            var mapper = new ServiceCollection().AddMapping().BuildServiceProvider().GetService<IMapper>();
+            var services = new ServiceCollection();
+            services.AddMapping();
+
+            //var mapper = services.BuildServiceProvider().GetService<IMapper>();
+            var mapper = new MapperBuilder().Build();
 
             var from = new From {
                 Name = "kevin",
