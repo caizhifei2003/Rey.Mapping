@@ -17,7 +17,6 @@ namespace Rey.Mapping {
             new MapArrayConverter(),
             new MapObjectConverter(),
         };
-
         private readonly IEnumerable<IMapDeserializeConverter> DEFAULTS_DESERIALIZE_CONVERTERS = new List<IMapDeserializeConverter>() {
             new MapNullConverter(),
             new MapCharConverter(),
@@ -30,12 +29,32 @@ namespace Rey.Mapping {
             new MapArrayConverter(),
             new MapObjectConverter(),
         };
-
         private readonly List<(Func<IMapSerializeConverter> func, int order)> _serializeConverters = new List<(Func<IMapSerializeConverter> func, int order)>();
         private readonly List<(Func<IMapDeserializeConverter> func, int order)> _deserializeConverters = new List<(Func<IMapDeserializeConverter> func, int order)>();
+        private readonly MapConfig _config = new MapConfig();
 
         public MapperBuilder(Action<MapperOptions> configure = null)
             : this(new MapperOptions().Configure(configure)) {
+        }
+
+        private IMapSerializer BuildSerializer() {
+            var converters = this._serializeConverters.OrderBy(x => x.order).Select(x => x.func()).Union(DEFAULTS_SERIALIZE_CONVERTERS);
+            return new MapSerializer(converters);
+        }
+
+        private IMapDeserializer BuildDeserializer() {
+            var converters = this._deserializeConverters.OrderBy(x => x.order).Select(x => x.func()).Union(DEFAULTS_DESERIALIZE_CONVERTERS);
+            return new MapDeserializer(converters);
+        }
+
+        public IMapper Build() {
+            var serializer = this.BuildSerializer();
+            var deserializer = this.BuildDeserializer();
+            return new Mapper(
+                this._options,
+                serializer,
+                deserializer,
+                this._config);
         }
 
         public MapperBuilder(IMapperOptions options) {
@@ -60,20 +79,28 @@ namespace Rey.Mapping {
             return this.AddDeserializeConverter(() => converter, order);
         }
 
-        private IMapSerializer BuildSerializer() {
-            var converters = this._serializeConverters.OrderBy(x => x.order).Select(x => x.func()).Union(DEFAULTS_SERIALIZE_CONVERTERS);
-            return new MapSerializer(converters);
+        public IMapperBuilder Ignore(Type type, MapPath path) {
+            if (type == null)
+                throw new ArgumentNullException(nameof(type));
+
+            this._config.Ignore(type, path);
+            return this;
         }
 
-        private IMapDeserializer BuildDeserializer() {
-            var converters = this._deserializeConverters.OrderBy(x => x.order).Select(x => x.func()).Union(DEFAULTS_DESERIALIZE_CONVERTERS);
-            return new MapDeserializer(converters);
+        public IMapperBuilder IgnoreFrom(Type type, MapPath path) {
+            if (type == null)
+                throw new ArgumentNullException(nameof(type));
+
+            this._config.IgnoreFrom(type, path);
+            return this;
         }
 
-        public IMapper Build() {
-            var serializer = this.BuildSerializer();
-            var deserializer = this.BuildDeserializer();
-            return new Mapper(this._options, serializer, deserializer);
+        public IMapperBuilder IgnoreTo(Type type, MapPath path) {
+            if (type == null)
+                throw new ArgumentNullException(nameof(type));
+
+            this._config.IgnoreTo(type, path);
+            return this;
         }
     }
 }

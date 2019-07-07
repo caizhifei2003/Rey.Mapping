@@ -5,11 +5,17 @@ namespace Rey.Mapping {
         private readonly IMapperOptions _options;
         private readonly IMapSerializer _serializer;
         private readonly IMapDeserializer _deserializer;
+        private readonly IMapConfig _config;
 
-        public Mapper(IMapperOptions options, IMapSerializer serializer, IMapDeserializer deserializer) {
+        public Mapper(
+            IMapperOptions options,
+            IMapSerializer serializer,
+            IMapDeserializer deserializer,
+            IMapConfig config) {
             this._options = options;
             this._serializer = serializer;
             this._deserializer = deserializer;
+            this._config = config;
         }
 
         private IMapTable Serialize(object fromValue, Type fromType, IMapSerializeOptions options) {
@@ -21,6 +27,7 @@ namespace Rey.Mapping {
 
             var table = new MapTable();
             var context = new MapSerializeContext(this._serializer, table);
+            this._config.AttachTo(fromType, options);
             this._serializer.Serialize(MapPath.Root, fromValue, fromType, options, context);
             return table.AfterSerialize(options);
         }
@@ -32,7 +39,11 @@ namespace Rey.Mapping {
             if (options == null)
                 throw new ArgumentNullException(nameof(options));
 
-            return new MapMedia(this.Serialize(fromValue, fromType, options), this._deserializer);
+            return new MapMedia(
+                this.Serialize(fromValue, fromType, options),
+                this._deserializer,
+                this._options,
+                this._config);
         }
 
         public IMapMedia From(object fromValue, Type fromType, Action<IMapSerializeOptions> configure = null) {
@@ -46,7 +57,11 @@ namespace Rey.Mapping {
             if (options == null)
                 throw new ArgumentNullException(nameof(options));
 
-            return new MapMedia<TFrom>(this.Serialize(fromValue, typeof(TFrom), options), this._deserializer);
+            return new MapMedia<TFrom>(
+                this.Serialize(fromValue, typeof(TFrom), options),
+                this._deserializer,
+                this._options,
+                this._config);
         }
 
         public IMapMedia<TFrom> From<TFrom>(TFrom fromValue, Action<IMapSerializeOptions<TFrom>> configure = null) {

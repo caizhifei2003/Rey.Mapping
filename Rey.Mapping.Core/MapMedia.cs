@@ -4,24 +4,37 @@ namespace Rey.Mapping {
     public class MapMedia : IMapMedia {
         private readonly IMapTable _table;
         private readonly IMapDeserializer _deserializer;
+        private readonly IMapperOptions _options;
+        private readonly IMapConfig _config;
 
-        public MapMedia(IMapTable table, IMapDeserializer deserializer) {
+        public MapMedia(
+            IMapTable table,
+            IMapDeserializer deserializer,
+            IMapperOptions options,
+            IMapConfig config) {
             this._table = table;
             this._deserializer = deserializer;
+            this._options = options;
+            this._config = config;
         }
 
         public object To(Type toType, IMapDeserializeOptions options) {
             if (options == null)
                 throw new ArgumentNullException(nameof(options));
 
+            this._config.AttachTo(toType, options);
             var context = new MapDeserializeContext(this._deserializer, this._table.BeforeDeserialize(options));
             return this._deserializer.Deserialize(MapPath.Root, toType, options, context);
         }
     }
 
     public class MapMedia<TFrom> : MapMedia, IMapMedia<TFrom> {
-        public MapMedia(IMapTable table, IMapDeserializer deserializer)
-            : base(table, deserializer) {
+        public MapMedia(
+            IMapTable table,
+            IMapDeserializer deserializer,
+            IMapperOptions options,
+            IMapConfig config)
+            : base(table, deserializer, options, config) {
         }
 
         public object To(Type toType, IMapDeserializeOptions<TFrom> options) {
